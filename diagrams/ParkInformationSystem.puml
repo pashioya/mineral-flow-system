@@ -1,0 +1,87 @@
+@startuml CleanArchitecture
+
+!define core <<B,COLOR[#FF5733],Darker>>
+
+package "Entities" <<core>> {
+
+
+
+  package "Attraction"{
+    class Attraction {
+        +id: Integer
+        +name: String
+        +location: String
+        +capacity: Integer
+        +waitTime: Integer
+        +queueGate: QueGate
+        +status: AttractionStatus∏∏∏
+    }
+    class QueGate {
+                +id: Integer
+                +name: String
+                +visitorsPresent: Integer
+                }
+                  enum AttractionStatus{
+                          OPEN
+                          CLOSED
+                      }
+    }
+
+
+
+
+
+
+    package "RefreshmentStand"{
+      class RefreshmentStand {
+            +id: Integer
+            +name: String
+            +location: String
+            +status: RefreshmentStandStatus
+        }
+        enum RefreshmentStandStatus{
+            OPEN
+            CLOSED
+        }
+    }
+
+}
+
+package "Use Cases" <<core>> {
+  class RemoveRefreshmentStand {
+    +execute(refreshmentStandId: Integer)
+  }
+
+  class SetRefreshmentStandStatus {
+    +execute(refreshmentStandId: Integer, status: RefreshmentStandStatus)
+  }
+}
+
+package "Interfaces" <<core>> {
+  interface AttractionRepository {
+    +getAttractionById(id: Integer): Attraction
+    +updateAttraction(attraction: Attraction)
+  }
+
+  interface QueGateRepository {
+    +getQueGateById(id: Integer): QueGate
+    +updateQueGate(queGate: QueGate)
+  }
+}
+
+package "Frameworks & Drivers" <<core>> {
+  database AttractionDatabase {
+'    // Attraction database properties
+  }
+
+  database QueGateDatabase {
+'    // QueGate database properties
+  }
+}
+
+RemoveRefreshmentStand --> AttractionRepository
+SetRefreshmentStandStatus --> RefreshmentStandRepository
+AttractionRepository --> AttractionDatabase
+QueGateRepository --> QueGateDatabase
+
+@enduml

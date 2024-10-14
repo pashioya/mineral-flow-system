@@ -1,0 +1,10 @@
+rootProject.name = 'mineral-flow-system' +
+        ''
+
+include 'application'
+include 'common'
+include 'ParkInformationSystem'
+include 'Ticketing'
+include 'EntranceGate'
+include 'ParkOperations'
+

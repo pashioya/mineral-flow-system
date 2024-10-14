@@ -1,0 +1,29 @@
+plugins {
+    id 'module-config'
+    id 'application'
+}
+
+mainClassName='be.kdg.prog6.ticketing.TicketingApplication'
+
+java {
+    sourceCompatibility = '17'
+}
+
+dependencies {
+    implementation project(':common')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    //https://www.archunit.org
+    testImplementation 'com.tngtech.archunit:archunit-junit5:1.1.0'
+    testImplementation "org.testcontainers:junit-jupiter:1.19.1"
+    testImplementation group: 'org.testcontainers', name: 'mysql', version: '1.19.1'
+}

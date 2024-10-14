@@ -1,0 +1,29 @@
+procs:
+  infrastructure:
+    shell: ". ./.env; cd mineral-flow-system/infrastructure; docker-compose up"
+    stop: { send-keys: ["<C-c>"] }
+    autostart: false
+  mineral-flow-system:
+    shell: ". ./.env; cd mineral-flow-system; gradle bootRun"
+    stop: { send-keys: ["<C-c>"] }
+    autostart: false
+  techtopia-frontend:
+    shell: ". ./.env; cd techtopia-frontend/techtopia-frontend; npm run dev"
+    stop: { send-keys: ["<C-c>"] }
+    autostart: false
+  backend-entrance-gate:
+    shell: ". ./.env; cd mineral-flow-system; gradle :EntranceGate:bootRun"
+    stop: { send-keys: ["<C-c>"] }
+    autostart: false
+  backend-park-info-sys:
+    shell: ". ./.env; cd mineral-flow-system; gradle :ParkInformationSystem:bootRun"
+    stop: { send-keys: ["<C-c>"] }
+    autostart: false
+  backend-park-ops:
+    shell: ". ./.env; cd mineral-flow-system; gradle :ParkOperations:bootRun"
+    stop: { send-keys: ["<C-c>"] }
+    autostart: false
+  backend-ticketing:
+    shell: ". ./.env; cd mineral-flow-system; gradle :Ticketing:bootRun"
+    stop: { send-keys: ["<C-c>"] }
+    autostart: false

@@ -1,0 +1,198 @@
+@startuml Contexts
+
+
+
+package "Theme Park" <<core>><<IMPLEMENT>>{
+  class Visitor{
+    +id: Integer
+    +name: String
+    +age: Integer
+    +email: String
+    +phone: String
+    +address: String
+  }
+}
+
+package "Entrance Gate" <<core>><<SIMULATED>>{
+  class ScannedTicket{
+
+  }
+  class EntranceGate{
+    +id: Integer
+    +name: String
+    +location: String
+  }
+
+  class CheckInOut {
+    +ticket: Ticket
+    +checkIn: DateTime
+    +checkOut: DateTime
+    +gate: EntranceGate
+  }
+}
+
+
+
+package "Point Of Interest" <<core>><<IMPLEMENT>>{
+    package "Attraction"{
+      class Attraction{
+        +id: Integer
+        +name: String
+        +location: String
+        +capacity: Integer
+        +waitTime: Integer
+        +queueGate: QueGate
+      }
+      class QueGate{
+        +id: Integer
+        +name: String
+        +location: String
+        +status: QueGateStatus
+      }
+    }
+    package "RefreshmentStand"{
+      class RefreshmentStand {
+          +id: Integer
+          +name: String
+          +location: String
+          +FoodType: String
+          +status: Status
+          +Employee: Employee
+        }
+        enum RefreshmentStandStatus{
+          OPEN
+          CLOSED
+        }
+    }
+  
+}
+
+package "Hotel Management" <<core>><<REMOVED>>{
+  class HotelReservation{
+    +id: Integer
+    +checkIn: DateTime
+    +checkOut: DateTime
+    +guest: Guest
+    +room: Room
+  }
+  class Room{
+    +id: Integer
+    +roomNumber: Integer
+    +roomType: RoomType
+    +price: Double
+    +status: RoomStatus
+  }
+  class Guest{
+    +id: Integer
+    +name: String
+    +age: Integer
+    +email: String
+    +phone: String
+    +address: String
+  }
+  class HotelManager{
+    +id: Integer
+    +name: String
+    +location: String
+  }
+  class Group{
+    +id: Integer
+    +name: String
+    +size: Integer
+    +guests: List<Guest>
+  }
+  package "Hotel Reservation Properties"{
+    enum RoomType{
+      SINGLE
+      DOUBLE
+      SUITE
+    }
+    enum RoomStatus{
+      AVAILABLE
+      OCCUPIED
+    }
+  }
+}
+
+
+package "Ticketing" <<core>><<SIMULATED>>{
+
+  package "Ticket Types"{
+    enum TicketDurationType {
+      DAY
+      THREE_DAY
+    }
+
+    enum TicketAgeType {
+      ADULT
+      CHILD
+    }
+  }
+
+  class Ticket {
+      +id: Integer
+      +ticketDurationType: TicketDurationType
+      +ticketAgeType: TicketAgeType
+      +price: Double
+      +checkInOut: CheckInOut
+      +payment: Payment
+  }
+
+}
+
+package "Weather Forecast" <<generic>><<IMPLEMENT>>{
+  class WeatherForecast <<generic>>{
+  }
+}
+
+package "Visitor Forcast"<<supporting>><<IMPLEMENT>>{
+  class VisitorForecast {
+  }
+}
+
+
+
+package "Staffing and Operations" <<supporting>><<IMPLEMENT>>{
+    class StaffingRequirement
+    class AttractionThroughput {
+      +id: Integer
+      +date: DateTime
+      +attraction: Attraction
+      +throughput: Integer
+    }
+    class ParkManager{
+      +id: Integer
+      +name: String
+      +location: String
+    }
+  }
+
+package "Payment"<<generic>><<REMOVED>>{
+  class Payment <<generic>>{
+  }
+}
+
+
+Guest --|> HotelReservation 
+HotelManager --|> HotelReservation 
+HotelManager --|> Room 
+HotelReservation --|> Room 
+Room --|> Guest 
+Group --|> Guest 
+
+
+EntranceGate --|> CheckInOut
+
+ScannedTicket --|> CheckInOut : "CheckIn"
+ScannedTicket --|> CheckInOut : "CheckOut"
+
+
+"Visitor Forcast" -- "Staffing and Operations"
+"Weather Forecast" -- "Staffing and Operations"
+
+"Hotel Management" -- "Payment"
+"Ticketing" -- "Payment"
+
+
+
+@enduml

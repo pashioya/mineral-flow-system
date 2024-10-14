@@ -1,0 +1,12 @@
+plugins {
+    id 'module-config'
+    id 'spring-conventions'
+}
+
+dependencies {
+    implementation project(":common")
+    implementation project(':Warehousing')
+    implementation project(':Landside')
+    implementation project(':Waterside')
+    implementation project(':Invoicing')
+}
