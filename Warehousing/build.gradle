@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-mainClassName='be.kdg.prog6.warehousing.WarehousingApplication'
+mainClassName='be.com.pashioya.mineralflowsystem.warehousing.WarehousingApplication'
 
 java {
     sourceCompatibility = '17'

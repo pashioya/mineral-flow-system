@@ -4,7 +4,7 @@ plugins {
 }
 
 
-mainClassName='be.keg.prog6.parkOperations.ParkOperationsApplication'
+mainClassName='be.com.pashioya.mineralflowsystem.waterside.WatersideApplication'
 
 java {
     sourceCompatibility = '17'

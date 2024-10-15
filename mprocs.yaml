@@ -12,18 +12,18 @@ procs:
     stop: { send-keys: ["<C-c>"] }
     autostart: false
   backend-entrance-gate:
-    shell: ". ./.env; cd mineral-flow-system; gradle :EntranceGate:bootRun"
+    shell: ". ./.env; cd Warehousing; gradle :Warehousing:bootRun"
     stop: { send-keys: ["<C-c>"] }
     autostart: false
   backend-park-info-sys:
-    shell: ". ./.env; cd mineral-flow-system; gradle :ParkInformationSystem:bootRun"
+    shell: ". ./.env; cd Landside; gradle :Landside:bootRun"
     stop: { send-keys: ["<C-c>"] }
     autostart: false
   backend-park-ops:
-    shell: ". ./.env; cd mineral-flow-system; gradle :ParkOperations:bootRun"
+    shell: ". ./.env; cd Waterside; gradle :Waterside:bootRun"
     stop: { send-keys: ["<C-c>"] }
     autostart: false
   backend-ticketing:
-    shell: ". ./.env; cd mineral-flow-system; gradle :Ticketing:bootRun"
+    shell: ". ./.env; cd Invoicing; gradle :Invoicing:bootRun"
     stop: { send-keys: ["<C-c>"] }
     autostart: false

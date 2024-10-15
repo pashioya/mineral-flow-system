@@ -4,7 +4,7 @@ plugins {
 }
 
 
-mainClassName='be.kdg.prog6.landside.LandsideApplication'
+mainClassName='be.com.pashioya.mineralflowsystem.landside.LandsideApplication'
 
 java {
     sourceCompatibility = '17'

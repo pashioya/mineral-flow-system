@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-mainClassName='be.kdg.prog6.ticketing.TicketingApplication'
+mainClassName='com.pashioya.mineralflowsystem.invoicing.InvoicingApplication'
 
 java {
     sourceCompatibility = '17'
