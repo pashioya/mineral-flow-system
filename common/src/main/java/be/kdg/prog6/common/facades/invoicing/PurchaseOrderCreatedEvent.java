@@ -9,7 +9,7 @@ public record PurchaseOrderCreatedEvent(
      String orderNumber,
      String orderDate,
          List<OrderItem>orderItems
-) {
+) implements PurchaseOrderEvent{
     public record OrderItem(
             UUID orderItemUUID,
             UUID purchaseOrderUUID,

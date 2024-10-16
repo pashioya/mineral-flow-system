@@ -8,5 +8,5 @@ public record CustomerCreatedEvent(
         String address,
         String email,
         String vatNumber
-) {
+) implements CustomerEvent{
 }
