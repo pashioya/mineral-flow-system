@@ -13,7 +13,7 @@ spring:
         properties:
             hibernate.dialect: org.hibernate.dialect.MySQLDialect
     datasource:
-        url: ${DATASOURCE_URL:jdbc:mysql://localhost:3308}
+        url: ${DATASOURCE_URL:jdbc:mysql://localhost:3308/warehousing}
         username: ${DATASOURCE_USER:user}
         password: ${DATASOURCE_PASS:password}
     rabbitmq:

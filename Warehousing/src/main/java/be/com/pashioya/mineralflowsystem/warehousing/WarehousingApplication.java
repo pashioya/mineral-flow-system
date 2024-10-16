@@ -1,4 +1,4 @@
-package be.com.pashioya.mineralflowsystem.invoicing.warehousing;
+package be.com.pashioya.mineralflowsystem.warehousing;
 
 
 import org.springframework.boot.SpringApplication;
