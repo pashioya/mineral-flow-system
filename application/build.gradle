@@ -10,3 +10,11 @@ dependencies {
     implementation project(':Waterside')
     implementation project(':Invoicing')
 }
+
+sourceSets{
+    main {
+        java {
+            resources.srcDirs = ['config']
+        }
+    }
+}

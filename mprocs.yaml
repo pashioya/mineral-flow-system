@@ -1,29 +1,29 @@
 procs:
   infrastructure:
-    shell: ". ./.env; cd mineral-flow-system/infrastructure; docker-compose up"
+    shell: ". ./.env; cd infrastructure; docker-compose up"
     stop: { send-keys: ["<C-c>"] }
     autostart: false
   mineral-flow-system:
-    shell: ". ./.env; cd mineral-flow-system; gradle bootRun"
+    shell: ". ./.env; cd application; gradle bootRun"
     stop: { send-keys: ["<C-c>"] }
     autostart: false
-  techtopia-frontend:
+  frontend:
     shell: ". ./.env; cd techtopia-frontend/techtopia-frontend; npm run dev"
     stop: { send-keys: ["<C-c>"] }
     autostart: false
-  backend-entrance-gate:
-    shell: ". ./.env; cd Warehousing; gradle :Warehousing:bootRun"
+  backend-warehousing:
+    shell: ". ./.env; cd Warehousing; gradle :Warehousing:bootRun --stacktrace"
     stop: { send-keys: ["<C-c>"] }
     autostart: false
-  backend-park-info-sys:
+  backend-landside:
     shell: ". ./.env; cd Landside; gradle :Landside:bootRun"
     stop: { send-keys: ["<C-c>"] }
     autostart: false
-  backend-park-ops:
+  backend-waterside:
     shell: ". ./.env; cd Waterside; gradle :Waterside:bootRun"
     stop: { send-keys: ["<C-c>"] }
     autostart: false
-  backend-ticketing:
+  backend-invoicing:
     shell: ". ./.env; cd Invoicing; gradle :Invoicing:bootRun"
     stop: { send-keys: ["<C-c>"] }
     autostart: false

@@ -11,6 +11,9 @@ build
 
 **/build
 
+# Ignore all .env files\
+.env/
+
 bin/
 
 node_modules/

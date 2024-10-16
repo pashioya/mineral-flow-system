@@ -1,81 +1,81 @@
-#CREATEING A VISIOT
-
-POST http://localhost:8094/visitor
-Content-Type: application/json
-
-{
-  "name": "Bobby",
-  "address": "123 Main St",
-  "email": "helslo@gmsail.com",
-  "dateOfBirth": "1990-01-01"
-}
-
-###
-
-#CREATING A TICKET FOR THE CREATED VISITOR
-
-POST http://localhost:8094/visitor/b8d3d33e-bcf9-46b5-b588-053d0551c71f/ticket
-Content-Type: application/json
-
-{
-  "ticketDurationType": "DAY",
-  "ticketAgeType": "ADULT",
-  "validFrom": "2023-11-01T12:00:00",
-  "validUntil": "2023-12-01T14:00:00"
-}
-###
-
-#Checkking if a ticket is valid
-
-GET http://localhost:8091/ticket/bf518f6d-f6c7-42ff-95e9-e7e58646803d
-
-###
-#Checking IN THE TICKET AT THE MAIN ENTRANCE GATES
-
-POST  http://localhost:8091/gate/{gateUUID}/ticket/{ticketUUID}/checkIn
-
-
-
-
-###
-
-GET http://localhost:8093/queGate/27eabf78-73a9-49b5-b33f-e7517047cecd
-###
-
-POST http://localhost:8093/queGate/checkIn
-Content-Type: application/json
-
-{
-  "ticketUUID": "bf518f6d-f6c7-42ff-95e9-e7e58646803d",
-  "queGateUUID": "409b9216-830c-421f-9221-f6ef6b468c89",
-  "ticketAction": "CHECK_IN"
-}
-###
-
-POST http://localhost:8093/queGate/checkOut
-Content-Type: application/json
-
-{
-  "ticketUUID": "93f157da-a820-491a-98dc-3cad3f851bac",
-  "queGateUUID": "27eabf78-73a9-49b5-b33f-e7517047cecd",
-  "ticketAction": "CHECK_OUT"
-}
-
-###
-
-GET http://localhost:8092/interactiveMap
-
-
-###
-
-GET http://localhost:8092/attractions
-
-###
-
-GET http://localhost:8092/refreshmentStands
-
-###
-
-GET http://localhost:8092/pointOfInterests
-
-
+##CREATEING A VISIOT
+#
+#POST http://localhost:8094/visitor
+#Content-Type: application/json
+#
+#{
+#  "name": "Bobby",
+#  "address": "123 Main St",
+#  "email": "helslo@gmsail.com",
+#  "dateOfBirth": "1990-01-01"
+#}
+#
+####
+#
+##CREATING A TICKET FOR THE CREATED VISITOR
+#
+#POST http://localhost:8094/visitor/b8d3d33e-bcf9-46b5-b588-053d0551c71f/ticket
+#Content-Type: application/json
+#
+#{
+#  "ticketDurationType": "DAY",
+#  "ticketAgeType": "ADULT",
+#  "validFrom": "2023-11-01T12:00:00",
+#  "validUntil": "2023-12-01T14:00:00"
+#}
+####
+#
+##Checkking if a ticket is valid
+#
+#GET http://localhost:8091/ticket/bf518f6d-f6c7-42ff-95e9-e7e58646803d
+#
+####
+##Checking IN THE TICKET AT THE MAIN ENTRANCE GATES
+#
+#POST  http://localhost:8091/gate/{gateUUID}/ticket/{ticketUUID}/checkIn
+#
+#
+#
+#
+####
+#
+#GET http://localhost:8093/queGate/27eabf78-73a9-49b5-b33f-e7517047cecd
+####
+#
+#POST http://localhost:8093/queGate/checkIn
+#Content-Type: application/json
+#
+#{
+#  "ticketUUID": "bf518f6d-f6c7-42ff-95e9-e7e58646803d",
+#  "queGateUUID": "409b9216-830c-421f-9221-f6ef6b468c89",
+#  "ticketAction": "CHECK_IN"
+#}
+####
+#
+#POST http://localhost:8093/queGate/checkOut
+#Content-Type: application/json
+#
+#{
+#  "ticketUUID": "93f157da-a820-491a-98dc-3cad3f851bac",
+#  "queGateUUID": "27eabf78-73a9-49b5-b33f-e7517047cecd",
+#  "ticketAction": "CHECK_OUT"
+#}
+#
+####
+#
+#GET http://localhost:8092/interactiveMap
+#
+#
+####
+#
+#GET http://localhost:8092/attractions
+#
+####
+#
+#GET http://localhost:8092/refreshmentStands
+#
+####
+#
+#GET http://localhost:8092/pointOfInterests
+#
+#

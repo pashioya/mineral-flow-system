@@ -1,11 +1,11 @@
-CREATE DATABASE IF NOT EXISTS entrance_gate;
-GRANT ALL PRIVILEGES ON entrance_gate.* TO 'user'@'%';
+CREATE DATABASE IF NOT EXISTS invoicing;
+GRANT ALL PRIVILEGES ON invoicing.* TO 'user'@'%';
 
-CREATE DATABASE IF NOT EXISTS ticket;
-GRANT ALL PRIVILEGES ON ticket.* TO 'user'@'%';
+CREATE DATABASE IF NOT EXISTS landside;
+GRANT ALL PRIVILEGES ON landside.* TO 'user'@'%';
 
-CREATE DATABASE IF NOT EXISTS park_ops;
-GRANT ALL PRIVILEGES ON park_ops.* TO 'user'@'%';
+CREATE DATABASE IF NOT EXISTS waterside;
+GRANT ALL PRIVILEGES ON waterside.* TO 'user'@'%';
 
-CREATE DATABASE IF NOT EXISTS park_info_sys;
-GRANT ALL PRIVILEGES ON park_info_sys.* TO 'user'@'%';
+CREATE DATABASE IF NOT EXISTS warehousing;
+GRANT ALL PRIVILEGES ON warehousing.* TO 'user'@'%';

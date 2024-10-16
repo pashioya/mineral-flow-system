@@ -10,6 +10,15 @@ java {
     sourceCompatibility = '17'
 }
 
+sourceSets{
+    main {
+        java {
+            resources.srcDirs = ['config']
+        }
+    }
+}
+
+
 
 dependencies {
     implementation project(':common')
@@ -33,3 +42,5 @@ dependencies {
     testImplementation "org.testcontainers:junit-jupiter:1.19.1"
     testImplementation group: 'org.testcontainers', name: 'mysql', version: '1.19.1'
 }
+
+

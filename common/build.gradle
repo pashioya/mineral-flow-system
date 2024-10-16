@@ -2,6 +2,16 @@ plugins {
     id 'module-config'
 }
 
+bootJar {
+    enabled = false
+}
+
+tasks.register('prepareKotlinBuildScriptModel') {}
+
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
 

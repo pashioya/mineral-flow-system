@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-mainClassName='com.pashioya.mineralflowsystem.invoicing.InvoicingApplication'
+mainClassName='be.com.pashioya.mineralflowsystem.invoicing.InvoicingApplication'
 
 java {
     sourceCompatibility = '17'
@@ -26,4 +26,12 @@ dependencies {
     testImplementation 'com.tngtech.archunit:archunit-junit5:1.1.0'
     testImplementation "org.testcontainers:junit-jupiter:1.19.1"
     testImplementation group: 'org.testcontainers', name: 'mysql', version: '1.19.1'
+}
+
+sourceSets{
+    main {
+        java {
+            resources.srcDirs = ['config']
+        }
+    }
 }

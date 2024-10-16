@@ -1,5 +1,4 @@
-rootProject.name = 'mineral-flow-system' +
-        ''
+rootProject.name = 'mineral-flow-system'
 
 include 'application'
 include 'common'
