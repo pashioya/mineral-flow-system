@@ -16,13 +16,9 @@ import java.util.UUID;
 public class PurchaseOrderJPAEntity {
     @Id
     private UUID purchaseOrderUUID;
-
     private UUID customerUUID;
-
     private String orderNumber;
-
     private String orderDate;
-
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemJPAEntity> orderItems;
 }

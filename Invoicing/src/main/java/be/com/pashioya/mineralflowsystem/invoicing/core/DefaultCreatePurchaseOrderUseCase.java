@@ -9,13 +9,14 @@ import be.com.pashioya.mineralflowsystem.invoicing.ports.out.CreatePurchaseOrder
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class DefaultCreatePurchaseOrderUseCase implements CreatePurchaseOrderUseCase {
 
-    private final CreatePurchaseOrderPort createPurchaseOrderPort;
+    private final List<CreatePurchaseOrderPort> createPurchaseOrderPort;
     private final CreateOrderItemPort createOrderItemPort;
 
     @Override
@@ -31,7 +32,7 @@ public class DefaultCreatePurchaseOrderUseCase implements CreatePurchaseOrderUse
                 command.orderDate(),
                 command.orderItems()
         );
-        createPurchaseOrderPort.createPurchaseOrder(purchaseOrder);
+        createPurchaseOrderPort.forEach(port -> port.createPurchaseOrder(purchaseOrder));
 
         command.orderItems().forEach(orderItem -> orderItem.setPurchaseOrderUUID(purchaseOrderUUID.uuid()));
         createOrderItemPort.createOrderItems(command.orderItems(), purchaseOrderUUID.uuid());
