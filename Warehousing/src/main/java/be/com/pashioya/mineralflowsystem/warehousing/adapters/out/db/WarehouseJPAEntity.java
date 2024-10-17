@@ -4,30 +4,25 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "inventory_items")
+@Table(name = "warehouses")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class InventoryItemJPAEntity {
+public class WarehouseJPAEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @NaturalId
-    @Setter
-    private UUID inventoryItemUUID;
-    @Setter
-    private UUID customerUUID;
-    @Setter
-    private UUID materialUUID;
-    @Setter
     private UUID warehouseUUID;
-    @Setter
-    private double quantity;
-    @Setter
-    private LocalDateTime dateReceived;
+    private UUID customerUUID;
+    private int warehouseNumber;
+    private UUID materialUUID;
+    private double capacity;
+
 }

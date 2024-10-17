@@ -11,16 +11,29 @@ import org.springframework.stereotype.Repository;
 public class InventoryItemDBAdapter implements CreateInventoryItemPort {
 
     private final InventoryItemRepository inventoryItemRepository;
+    private final WarehouseRepository warehouseRepository;
 
     @Override
     public void inventoryItemCreated(InventoryItem inventoryItem) {
+        InventoryItemJPAEntity inventoryItemJPAEntity = getInventoryItemJPAEntity(inventoryItem);
+
+        warehouseRepository.findById(inventoryItem.getWarehouse().getWarehouseUUID().uuid())
+                .ifPresent(warehouseJPAEntity -> {
+                    warehouseJPAEntity.setMaterialUUID(inventoryItem.getMaterial().getUuid().uuid());
+                    warehouseRepository.save(warehouseJPAEntity);
+                });
+
+        inventoryItemRepository.save(inventoryItemJPAEntity);
+    }
+
+    private static InventoryItemJPAEntity getInventoryItemJPAEntity(InventoryItem inventoryItem) {
         InventoryItemJPAEntity inventoryItemJPAEntity = new InventoryItemJPAEntity();
         inventoryItemJPAEntity.setInventoryItemUUID(inventoryItem.getUuid().uuid());
         inventoryItemJPAEntity.setCustomerUUID(inventoryItem.getCustomer().getWarehouseCustomerUUID().uuid());
         inventoryItemJPAEntity.setMaterialUUID(inventoryItem.getMaterial().getUuid().uuid());
+        inventoryItemJPAEntity.setWarehouseUUID(inventoryItem.getWarehouse().getWarehouseUUID().uuid());
         inventoryItemJPAEntity.setQuantity(inventoryItem.getQuantity());
         inventoryItemJPAEntity.setDateReceived(inventoryItem.getDateReceived());
-
-        inventoryItemRepository.save(inventoryItemJPAEntity);
+        return inventoryItemJPAEntity;
     }
 }

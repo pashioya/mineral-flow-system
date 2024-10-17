@@ -2,7 +2,9 @@ package be.com.pashioya.mineralflowsystem.warehousing.config;
 
 
 import be.com.pashioya.mineralflowsystem.warehousing.core.DefaultCreateMaterialUseCase;
+import be.com.pashioya.mineralflowsystem.warehousing.core.DefaultCreateWarehouseUseCase;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateMaterialCommand;
+import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateWarehouseCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -14,9 +16,14 @@ import org.springframework.stereotype.Component;
 public class DatabaseSeeder implements ApplicationRunner {
 
     private final DefaultCreateMaterialUseCase defaultCreateMaterialUseCase;
-
+    private final DefaultCreateWarehouseUseCase defaultCreateWarehouseUseCase;
 
     public void seed() {
+
+        for (int i = 0; i < 15; i++){
+            defaultCreateWarehouseUseCase.createWarehouse(new CreateWarehouseCommand());
+        }
+
         defaultCreateMaterialUseCase.createMaterial(
                 new CreateMaterialCommand(
                         "Gypsum",
