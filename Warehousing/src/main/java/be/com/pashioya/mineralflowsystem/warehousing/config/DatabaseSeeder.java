@@ -1,14 +1,20 @@
 package be.com.pashioya.mineralflowsystem.warehousing.config;
 
 
-import be.com.pashioya.mineralflowsystem.warehousing.core.DefaultCreateMaterialUseCase;
-import be.com.pashioya.mineralflowsystem.warehousing.core.DefaultCreateWarehouseUseCase;
+import be.com.pashioya.mineralflowsystem.warehousing.core.*;
+import be.com.pashioya.mineralflowsystem.warehousing.domain.Material;
+import be.com.pashioya.mineralflowsystem.warehousing.domain.Warehouse;
+import be.com.pashioya.mineralflowsystem.warehousing.domain.WarehouseCustomer;
+import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateInventoryItemCommand;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateMaterialCommand;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateWarehouseCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -17,6 +23,10 @@ public class DatabaseSeeder implements ApplicationRunner {
 
     private final DefaultCreateMaterialUseCase defaultCreateMaterialUseCase;
     private final DefaultCreateWarehouseUseCase defaultCreateWarehouseUseCase;
+    private final DefaultLoadWarehouseUseCase defaultLoadWarehouseUseCase;
+    private final DefaultCreateInventoryItemUseCase defaultCreateInventoryItemUseCase;
+    private final DefaultLoadMaterialsUseCase defaultLoadMaterialUseCase;
+    private final DefaultLoadWarehouseCustomersUseCase defaultLoadCustomerUseCase;
 
     public void seed() {
 
@@ -54,6 +64,25 @@ public class DatabaseSeeder implements ApplicationRunner {
                         "Slag is a byproduct of the smelting process used to produce metals from their ores. It is used in construction as an aggregate in concrete, road construction, and as a raw material in cement production.",
                         160.0,
                         7.0));
+
+        List<Warehouse> warehouses = defaultLoadWarehouseUseCase.loadAllWarehouses();
+        List<Material> materials = defaultLoadMaterialUseCase.loadAllMaterials();
+        List<WarehouseCustomer> customers= defaultLoadCustomerUseCase.loadCustomers();
+
+        for (int i = 0; i < 3; i++){
+            int randomIndex = (int) (Math.random() * warehouses.size());
+            Warehouse warehouse = warehouses.get(randomIndex);
+
+            defaultCreateInventoryItemUseCase.createInventoryItem(
+                    new CreateInventoryItemCommand(
+                            customers.get(2).getWarehouseCustomerUUID().uuid(),
+                            materials.get(3).getUuid().uuid(),
+                            warehouse.getWarehouseUUID().uuid(),
+                            1000,
+                            LocalDateTime.now()
+                    )
+            );
+        }
     }
 
     @Override

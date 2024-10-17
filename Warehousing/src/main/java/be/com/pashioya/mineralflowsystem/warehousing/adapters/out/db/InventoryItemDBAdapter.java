@@ -14,7 +14,7 @@ public class InventoryItemDBAdapter implements CreateInventoryItemPort {
     private final WarehouseRepository warehouseRepository;
 
     @Override
-    public void inventoryItemCreated(InventoryItem inventoryItem) {
+    public void createInventoryItem(InventoryItem inventoryItem) {
         InventoryItemJPAEntity inventoryItemJPAEntity = getInventoryItemJPAEntity(inventoryItem);
 
         warehouseRepository.findById(inventoryItem.getWarehouse().getWarehouseUUID().uuid())

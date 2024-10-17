@@ -27,9 +27,9 @@ public class DefaultCreateInventoryItemUseCase implements CreateInventoryItemUse
     @Override
     public void createInventoryItem(CreateInventoryItemCommand command) {
 
-        Material material = loadMaterialPort.loadMaterial(command.materialUUID()).orElseThrow();
         WarehouseCustomer customer = loadCustomerPort.loadCustomer(command.customerUUID()).orElseThrow();
         Warehouse warehouse = loadWarehousePort.loadWarehouse(command.warehouseUUID()).orElseThrow();
+        Material material = loadMaterialPort.loadMaterial(command.materialUUID()).orElseThrow();
 
         InventoryItem inventoryItem = new InventoryItem(
                 new InventoryItem.InventoryItemUUID(
@@ -40,9 +40,6 @@ public class DefaultCreateInventoryItemUseCase implements CreateInventoryItemUse
                 command.quantity(),
                 command.dateReceived()
         );
-
-
-
-        createInventoryItemPort.inventoryItemCreated(inventoryItem);
+        createInventoryItemPort.createInventoryItem(inventoryItem);
     }
 }
