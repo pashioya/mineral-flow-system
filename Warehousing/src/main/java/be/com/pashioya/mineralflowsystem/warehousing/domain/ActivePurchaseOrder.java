@@ -1,4 +1,4 @@
-package be.com.pashioya.mineralflowsystem.invoicing.domain;
+package be.com.pashioya.mineralflowsystem.warehousing.domain;
 
 import be.kdg.prog6.common.domain.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -14,9 +14,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class PurchaseOrder {
+public class ActivePurchaseOrder {
     private PurchaseOrderUUID purchaseOrderUUID;
-    private Customer.CustomerUUID customerUUID;
+    private WarehouseCustomer.WarehouseCustomerUUID warehouseCustomerUUID;
     private String orderNumber;
     private LocalDateTime deliveryDate;
     private LocalDateTime dateReceived;

@@ -5,6 +5,8 @@ import be.com.pashioya.mineralflowsystem.invoicing.ports.out.CreatePurchaseOrder
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+
 
 @AllArgsConstructor
 @Repository
@@ -20,7 +22,10 @@ public class PurchaseOrderDBAdapter implements CreatePurchaseOrderPort {
         purchaseOrderJPAEntity.setPurchaseOrderUUID(purchaseOrderUUID.uuid());
         purchaseOrderJPAEntity.setCustomerUUID(purchaseOrder.getCustomerUUID().uuid());
         purchaseOrderJPAEntity.setOrderNumber(purchaseOrder.getOrderNumber());
-        purchaseOrderJPAEntity.setOrderDate(purchaseOrder.getOrderDate());
+        purchaseOrderJPAEntity.setAddress(purchaseOrder.getAddress());
+        purchaseOrderJPAEntity.setOrderStatus(purchaseOrder.getOrderStatus());
+        purchaseOrderJPAEntity.setDateReceived(LocalDateTime.now());
+        purchaseOrderJPAEntity.setDeliveryDate(purchaseOrder.getDeliveryDate());
         purchaseOrderRepository.save(purchaseOrderJPAEntity);
     }
 }

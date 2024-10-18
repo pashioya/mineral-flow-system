@@ -29,6 +29,15 @@ public class DefaultCreateInventoryItemUseCase implements CreateInventoryItemUse
 
         WarehouseCustomer customer = loadCustomerPort.loadCustomer(command.customerUUID()).orElseThrow();
         Warehouse warehouse = loadWarehousePort.loadWarehouse(command.warehouseUUID()).orElseThrow();
+
+        if (warehouse.getMaterial() != null && !warehouse.getMaterial().getUuid().uuid().equals(command.materialUUID())) {
+            throw new IllegalStateException("Warehouse already has a different material");
+        }
+
+        if (warehouse.getCustomer() != null && !warehouse.getCustomer().getWarehouseCustomerUUID().uuid().equals(command.customerUUID())) {
+            throw new IllegalStateException("Warehouse already has a different customer");
+        }
+
         Material material = loadMaterialPort.loadMaterial(command.materialUUID()).orElseThrow();
 
         InventoryItem inventoryItem = new InventoryItem(

@@ -8,6 +8,7 @@ import be.com.pashioya.mineralflowsystem.warehousing.domain.WarehouseCustomer;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateInventoryItemCommand;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateMaterialCommand;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateWarehouseCommand;
+import be.com.pashioya.mineralflowsystem.warehousing.ports.out.CreateWareHouseCustomerPort;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 
 @AllArgsConstructor
@@ -26,7 +28,7 @@ public class DatabaseSeeder implements ApplicationRunner {
     private final DefaultLoadWarehouseUseCase defaultLoadWarehouseUseCase;
     private final DefaultCreateInventoryItemUseCase defaultCreateInventoryItemUseCase;
     private final DefaultLoadMaterialsUseCase defaultLoadMaterialUseCase;
-    private final DefaultLoadWarehouseCustomersUseCase defaultLoadCustomerUseCase;
+    private final CreateWareHouseCustomerPort createWareHouseCustomerPort;
 
     public void seed() {
 
@@ -67,7 +69,17 @@ public class DatabaseSeeder implements ApplicationRunner {
 
         List<Warehouse> warehouses = defaultLoadWarehouseUseCase.loadAllWarehouses();
         List<Material> materials = defaultLoadMaterialUseCase.loadAllMaterials();
-        List<WarehouseCustomer> customers= defaultLoadCustomerUseCase.loadCustomers();
+
+        UUID customerUUID =  UUID.randomUUID();
+
+        createWareHouseCustomerPort.createWareHouseCustomer(
+                new WarehouseCustomer(
+                        new WarehouseCustomer.WarehouseCustomerUUID(customerUUID),
+                        "TEST CUSTOMER",
+                        "123 Main St, Anytown, USA",
+                        "john.doe@gmail.com"
+                )
+        );
 
         for (int i = 0; i < 3; i++){
             int randomIndex = (int) (Math.random() * warehouses.size());
@@ -75,10 +87,10 @@ public class DatabaseSeeder implements ApplicationRunner {
 
             defaultCreateInventoryItemUseCase.createInventoryItem(
                     new CreateInventoryItemCommand(
-                            customers.get(2).getWarehouseCustomerUUID().uuid(),
-                            materials.get(3).getUuid().uuid(),
+                            customerUUID,
+                            materials.get(i).getUuid().uuid(),
                             warehouse.getWarehouseUUID().uuid(),
-                            1000,
+                            (int) (Math.random() * 100),
                             LocalDateTime.now()
                     )
             );

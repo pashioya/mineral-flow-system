@@ -1,4 +1,4 @@
-package be.com.pashioya.mineralflowsystem.invoicing.adapters.out.db;
+package be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db;
 
 import be.kdg.prog6.common.domain.OrderStatus;
 import jakarta.persistence.*;
@@ -10,12 +10,12 @@ import java.util.UUID;
 
 @Setter
 @Entity
-@Table(name = "purchase_orders")
+@Table(name = "active_purchase_orders")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class PurchaseOrderJPAEntity {
+public class ActivePurchaseOrderJPAEntity {
     @Id
     private UUID purchaseOrderUUID;
     private UUID customerUUID;

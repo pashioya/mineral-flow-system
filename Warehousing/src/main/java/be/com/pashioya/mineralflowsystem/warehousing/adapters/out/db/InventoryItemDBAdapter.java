@@ -20,6 +20,8 @@ public class InventoryItemDBAdapter implements CreateInventoryItemPort {
         warehouseRepository.findById(inventoryItem.getWarehouse().getWarehouseUUID().uuid())
                 .ifPresent(warehouseJPAEntity -> {
                     warehouseJPAEntity.setMaterialUUID(inventoryItem.getMaterial().getUuid().uuid());
+                    warehouseJPAEntity.setCustomerUUID(inventoryItem.getCustomer().getWarehouseCustomerUUID().uuid());
+                    warehouseJPAEntity.setCapacity(warehouseJPAEntity.getCapacity() + inventoryItem.getQuantity());
                     warehouseRepository.save(warehouseJPAEntity);
                 });
 

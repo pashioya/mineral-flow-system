@@ -31,7 +31,9 @@ public class PurchaseOrderCreatedAMQPPublisher implements CreatePurchaseOrderPor
                 purchaseOrder.getPurchaseOrderUUID().uuid(),
                 purchaseOrder.getCustomerUUID().uuid(),
                 purchaseOrder.getOrderNumber(),
-                purchaseOrder.getOrderDate(),
+                purchaseOrder.getAddress(),
+                purchaseOrder.getOrderStatus(),
+                purchaseOrder.getDeliveryDate().toString(),
                 purchaseOrder.getOrderItems().stream().map(orderItem -> new PurchaseOrderCreatedEvent.OrderItem(
                         orderItem.getOrderItemUUID(),
                         orderItem.getPurchaseOrderUUID(),

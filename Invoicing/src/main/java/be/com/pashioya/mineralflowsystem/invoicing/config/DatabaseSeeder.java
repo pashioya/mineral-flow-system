@@ -4,7 +4,7 @@ package be.com.pashioya.mineralflowsystem.invoicing.config;
 
 import be.com.pashioya.mineralflowsystem.invoicing.core.DefaultCreateCustomerUseCase;
 import be.com.pashioya.mineralflowsystem.invoicing.core.DefaultCreatePurchaseOrderUseCase;
-import be.com.pashioya.mineralflowsystem.invoicing.domain.OrderItem;
+import be.com.pashioya.mineralflowsystem.invoicing.domain.PurchaseOrder;
 import be.com.pashioya.mineralflowsystem.invoicing.ports.in.CreateCustomerCommand;
 import be.com.pashioya.mineralflowsystem.invoicing.ports.in.CreatePurchaseOrderCommand;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,11 +48,12 @@ public class DatabaseSeeder implements ApplicationRunner {
         defaultCreatePurchaseOrderUseCase.createPurchaseOrder(new CreatePurchaseOrderCommand(
                 UUID.randomUUID(),
                 "PO-2021-0001",
-                "2021-01-01",
+                "Pashioyastraat 1, 2018 Antwerpen, Belgium",
+                LocalDateTime.of(2025, 1, 1, 0, 0),
                 List.of(
-                        new OrderItem(UUID.randomUUID(), 1, 100.0),
-                        new OrderItem(UUID.randomUUID(), 2, 200.0),
-                        new OrderItem(UUID.randomUUID(), 3, 300.0)
+                        new PurchaseOrder.OrderItem(UUID.randomUUID(), 1, 100.0),
+                        new PurchaseOrder.OrderItem(UUID.randomUUID(), 2, 200.0),
+                        new PurchaseOrder.OrderItem(UUID.randomUUID(), 3, 300.0)
                 )
         ));
     }

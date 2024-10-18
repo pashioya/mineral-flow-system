@@ -3,22 +3,23 @@ package be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Setter
 @Entity
-@Table(name = "inventory_items")
+@Table(name = "order_items")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class InventoryItemJPAEntity {
+public class OrderItemJPAEntity {
+
     @Id
-    private UUID inventoryItemUUID;
-    private UUID customerUUID;
+    private UUID orderItemUUID;
     private UUID materialUUID;
-    private UUID warehouseUUID;
     private int quantity;
-    private LocalDateTime dateReceived;
+    private double price;
+    @ManyToOne
+    @JoinColumn(name = "purchase_orderuuid")
+    private ActivePurchaseOrderJPAEntity purchaseOrder;
 }

@@ -6,9 +6,11 @@ import be.com.pashioya.mineralflowsystem.invoicing.ports.in.CreatePurchaseOrderC
 import be.com.pashioya.mineralflowsystem.invoicing.ports.in.CreatePurchaseOrderUseCase;
 import be.com.pashioya.mineralflowsystem.invoicing.ports.out.CreateOrderItemPort;
 import be.com.pashioya.mineralflowsystem.invoicing.ports.out.CreatePurchaseOrderPort;
+import be.kdg.prog6.common.domain.OrderStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +31,10 @@ public class DefaultCreatePurchaseOrderUseCase implements CreatePurchaseOrderUse
                 purchaseOrderUUID,
                 new Customer.CustomerUUID(command.customerUUID()),
                 command.orderNumber(),
-                command.orderDate(),
+                command.deliveryDate(),
+                LocalDateTime.now(),
+                command.address(),
+                OrderStatus.CREATED,
                 command.orderItems()
         );
         createPurchaseOrderPort.forEach(port -> port.createPurchaseOrder(purchaseOrder));

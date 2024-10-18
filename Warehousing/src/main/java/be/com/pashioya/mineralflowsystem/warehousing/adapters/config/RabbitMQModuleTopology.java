@@ -20,12 +20,12 @@ public class RabbitMQModuleTopology {
 
     @Bean
     public Queue customerCreatedQueue() {
-        return new Queue("customer.created.queue");
+        return new Queue(CUSTOMER_CREATED_ROUTING_KEY);
     }
 
     @Bean
     public Queue purchaseOrderCreatedQueue() {
-        return new Queue("purchaseOrder.created.queue");
+        return new Queue(PURCHASE_ORDER_CREATED_ROUTING_KEY);
     }
 
     @Bean

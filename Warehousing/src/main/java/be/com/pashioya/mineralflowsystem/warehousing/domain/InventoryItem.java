@@ -15,7 +15,7 @@ public class InventoryItem {
     private WarehouseCustomer customer;
     private Material material;
     private Warehouse warehouse;
-    private double quantity;
+    private int quantity;
     private LocalDateTime dateReceived;
 
     public record InventoryItemUUID(UUID uuid) {
