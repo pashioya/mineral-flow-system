@@ -1,5 +1,6 @@
 package be.com.pashioya.mineralflowsystem.warehousing.domain;
 
+import be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db.WarehouseJPAEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,12 @@ public class Warehouse {
     private WarehouseCustomer customer;
     private double capacity;
     private Material material;
+
+    public Warehouse(WarehouseJPAEntity warehouseJPAEntity) {
+        this.warehouseUUID = new WareHouseUUID(warehouseJPAEntity.getWarehouseUUID());
+        this.warehouseNumber = warehouseJPAEntity.getWarehouseNumber();
+        this.capacity = warehouseJPAEntity.getCapacity();
+    }
 
     public record WareHouseUUID(UUID uuid) {
     }

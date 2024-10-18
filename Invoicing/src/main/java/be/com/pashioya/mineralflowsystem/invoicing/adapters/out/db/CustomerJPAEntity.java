@@ -1,10 +1,12 @@
 package be.com.pashioya.mineralflowsystem.invoicing.adapters.out.db;
 
+import be.com.pashioya.mineralflowsystem.invoicing.domain.Customer;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
 
+@Setter
 @Entity
 @Table(name = "customers")
 @Getter
@@ -13,16 +15,17 @@ import java.util.UUID;
 @ToString
 public class CustomerJPAEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Setter
     private UUID customerUUID;
-    @Setter
     private String name;
-    @Setter
     private String address;
-    @Setter
     private String email;
-    @Setter
     private String vatNumber;
+
+    public CustomerJPAEntity(Customer customer) {
+        this.customerUUID = customer.getCustomerUUID().uuid();
+        this.name = customer.getName();
+        this.address = customer.getAddress();
+        this.email = customer.getEmail();
+        this.vatNumber = customer.getVatNumber();
+    }
 }

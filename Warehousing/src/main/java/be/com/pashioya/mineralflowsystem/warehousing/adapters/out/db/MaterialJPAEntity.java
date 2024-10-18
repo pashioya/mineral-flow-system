@@ -1,5 +1,6 @@
 package be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db;
 
+import be.com.pashioya.mineralflowsystem.warehousing.domain.Material;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,4 +20,12 @@ public class MaterialJPAEntity {
     private String description;
     private double price;
     private double storagePrice;
+
+    public MaterialJPAEntity(Material material){
+        this.materialUUID = material.getUuid().uuid();
+        this.name = material.getName();
+        this.description = material.getDescription();
+        this.price = material.getPrice();
+        this.storagePrice = material.getStoragePrice();
+    }
 }

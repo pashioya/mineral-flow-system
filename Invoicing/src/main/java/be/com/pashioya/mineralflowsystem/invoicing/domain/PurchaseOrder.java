@@ -1,5 +1,6 @@
 package be.com.pashioya.mineralflowsystem.invoicing.domain;
 
+import be.com.pashioya.mineralflowsystem.invoicing.ports.in.CreatePurchaseOrderCommand;
 import be.kdg.prog6.common.domain.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,18 @@ public class PurchaseOrder {
 
     public record PurchaseOrderUUID(UUID uuid) {
     }
+
+    public PurchaseOrder(CreatePurchaseOrderCommand createPurchaseOrderCommand) {
+        this.purchaseOrderUUID = new PurchaseOrderUUID(UUID.randomUUID());
+        this.customerUUID = new Customer.CustomerUUID(createPurchaseOrderCommand.customerUUID());
+        this.orderNumber = createPurchaseOrderCommand.orderNumber();
+        this.deliveryDate = createPurchaseOrderCommand.deliveryDate();
+        this.dateReceived = LocalDateTime.now();
+        this.address = createPurchaseOrderCommand.address();
+        this.orderStatus = OrderStatus.CREATED;
+        this.orderItems = createPurchaseOrderCommand.orderItems();
+    }
+
 
     @Setter
     @AllArgsConstructor

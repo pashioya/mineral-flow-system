@@ -19,5 +19,4 @@ public class WarehouseJPAEntity {
     private int warehouseNumber;
     private UUID materialUUID;
     private double capacity;
-
 }

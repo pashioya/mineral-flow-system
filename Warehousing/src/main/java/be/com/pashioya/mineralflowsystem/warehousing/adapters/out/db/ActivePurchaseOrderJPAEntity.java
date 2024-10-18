@@ -1,5 +1,6 @@
 package be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db;
 
+import be.com.pashioya.mineralflowsystem.warehousing.domain.ActivePurchaseOrder;
 import be.kdg.prog6.common.domain.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,4 +28,19 @@ public class ActivePurchaseOrderJPAEntity {
     private OrderStatus orderStatus;
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemJPAEntity> orderItems;
+
+    public ActivePurchaseOrderJPAEntity(ActivePurchaseOrder activePurchaseOrder){
+
+        this.purchaseOrderUUID = activePurchaseOrder.getPurchaseOrderUUID().uuid();
+        this.customerUUID = activePurchaseOrder.getWarehouseCustomerUUID().uuid();
+        this.orderNumber = activePurchaseOrder.getOrderNumber();
+        this.deliveryDate = activePurchaseOrder.getDeliveryDate();
+        this.dateReceived = activePurchaseOrder.getDateReceived();
+        this.address = activePurchaseOrder.getAddress();
+        this.orderStatus = activePurchaseOrder.getOrderStatus();
+        this.orderItems = activePurchaseOrder.getOrderItems().stream().map(
+                orderItem -> new OrderItemJPAEntity(orderItem, this)
+        ).toList();
+
+    }
 }

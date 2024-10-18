@@ -20,14 +20,6 @@ public class OrderItemDBAdapter implements CreateOrderItemPort {
         PurchaseOrderJPAEntity purchaseOrder = purchaseOrderRepository.findById(purchaseOrderUUID).orElseThrow(()
                 -> new RuntimeException("Purchase Order not found"));
 
-        orderItems.stream().map(orderItem -> {
-            OrderItemJPAEntity orderItemJPAEntity = new OrderItemJPAEntity();
-            orderItemJPAEntity.setOrderItemUUID(orderItem.getOrderItemUUID());
-            orderItemJPAEntity.setPurchaseOrder(purchaseOrder);
-            orderItemJPAEntity.setMaterialUUID(orderItem.getMaterialUUID());
-            orderItemJPAEntity.setQuantity(orderItem.getQuantity());
-            orderItemJPAEntity.setPrice(orderItem.getPrice());
-            return orderItemJPAEntity;
-        }).forEach(orderItemRepository::save);
+        orderItems.stream().map(orderItem -> new OrderItemJPAEntity(orderItem, purchaseOrder)).forEach(orderItemRepository::save);
     }
 }

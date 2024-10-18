@@ -13,13 +13,6 @@ public class CustomerDBAdapter implements CreateCustomerPort {
 
     @Override
     public void createCustomer(Customer customer) {
-        CustomerJPAEntity customerJPAEntity = new CustomerJPAEntity();
-        customerJPAEntity.setCustomerUUID(customer.getCustomerUUID().uuid());
-        customerJPAEntity.setName(customer.getName());
-        customerJPAEntity.setAddress(customer.getAddress());
-        customerJPAEntity.setEmail(customer.getEmail());
-        customerJPAEntity.setVatNumber(customer.getVatNumber());
-
-        customerRepository.save(customerJPAEntity);
+        customerRepository.save(new CustomerJPAEntity(customer));
     }
 }

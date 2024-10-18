@@ -18,36 +18,16 @@ public class MaterialDBAdapter implements CreateMaterialPort, LoadMaterialPort {
 
     @Override
     public void materialCreated(Material material) {
-
-        MaterialJPAEntity materialJPAEntity = new MaterialJPAEntity();
-        materialJPAEntity.setMaterialUUID(material.getUuid().uuid());
-        materialJPAEntity.setName(material.getName());
-        materialJPAEntity.setDescription(material.getDescription());
-        materialJPAEntity.setPrice(material.getPrice());
-        materialJPAEntity.setStoragePrice(material.getStoragePrice());
-        materialRepository.save(materialJPAEntity);
+        materialRepository.save(new MaterialJPAEntity(material));
     }
 
     @Override
     public Optional<Material> loadMaterial(UUID materialUUID) {
-        return materialRepository.findById(materialUUID)
-                .map(materialJPAEntity ->
-                        new Material(
-                                new Material.MaterialUUID(materialJPAEntity.getMaterialUUID()),
-                                materialJPAEntity.getName(), materialJPAEntity.getDescription(),
-                                materialJPAEntity.getPrice(), materialJPAEntity.getStoragePrice())
-                );
+        return materialRepository.findById(materialUUID).map(Material::new);
     }
 
     @Override
     public List<Material> loadAllMaterials() {
-        return materialRepository.findAll().stream()
-                .map(materialJPAEntity ->
-                        new Material(
-                                new Material.MaterialUUID(materialJPAEntity.getMaterialUUID()),
-                                materialJPAEntity.getName(), materialJPAEntity.getDescription(),
-                                materialJPAEntity.getPrice(), materialJPAEntity.getStoragePrice())
-                )
-                .toList();
+        return materialRepository.findAll().stream().map(Material::new).toList();
     }
 }

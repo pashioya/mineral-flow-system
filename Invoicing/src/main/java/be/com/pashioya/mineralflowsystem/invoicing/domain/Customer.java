@@ -1,5 +1,6 @@
 package be.com.pashioya.mineralflowsystem.invoicing.domain;
 
+import be.com.pashioya.mineralflowsystem.invoicing.ports.in.CreateCustomerCommand;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,13 @@ public class Customer {
     private String vatNumber;
 
     public record CustomerUUID(UUID uuid) {
+    }
+
+    public Customer(CreateCustomerCommand command) {
+        this.customerUUID = new CustomerUUID(UUID.randomUUID());
+        this.name = command.name();
+        this.address = command.address();
+        this.email = command.email();
+        this.vatNumber = command.vatNumber();
     }
 }

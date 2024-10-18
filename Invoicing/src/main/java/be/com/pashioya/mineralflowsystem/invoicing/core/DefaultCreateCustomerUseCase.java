@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -17,7 +16,6 @@ public class DefaultCreateCustomerUseCase implements CreateCustomerUseCase {
 
     @Override
     public void createCustomer(CreateCustomerCommand command) {
-        Customer customer = new Customer(new Customer.CustomerUUID(UUID.randomUUID()),command.name(), command.address(), command.email(), command.vatNumber());
-        createCustomerPort.forEach(port -> port.createCustomer(customer));
+        createCustomerPort.forEach(port -> port.createCustomer(new Customer(command)));
     }
 }

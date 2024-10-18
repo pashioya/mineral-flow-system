@@ -15,12 +15,6 @@ public class DefaultCustomerCreatedUseCase implements CustomerCreatedUseCase {
 
     @Override
     public void createWarehouseCustomer(CustomerCreatedEvent customerEvent) {
-        createWareHouseCustomerPort.createWareHouseCustomer(new WarehouseCustomer(
-                new WarehouseCustomer.WarehouseCustomerUUID(
-                        customerEvent.customerUUID()),
-                        customerEvent.name(),
-                        customerEvent.address(),
-                        customerEvent.email())
-        );
+        createWareHouseCustomerPort.createWareHouseCustomer(new WarehouseCustomer(customerEvent));
     }
 }

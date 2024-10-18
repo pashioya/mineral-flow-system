@@ -1,5 +1,6 @@
 package be.com.pashioya.mineralflowsystem.invoicing.adapters.out.db;
 
+import be.com.pashioya.mineralflowsystem.invoicing.domain.PurchaseOrder;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 public class OrderItemJPAEntity {
-
     @Id
     private UUID orderItemUUID;
     private UUID materialUUID;
@@ -22,4 +22,12 @@ public class OrderItemJPAEntity {
     @ManyToOne
     @JoinColumn(name = "purchase_orderuuid")
     private PurchaseOrderJPAEntity purchaseOrder;
+
+    public OrderItemJPAEntity(PurchaseOrder.OrderItem orderItem, PurchaseOrderJPAEntity purchaseOrderJPAEntity) {
+        this.orderItemUUID = orderItem.getOrderItemUUID();
+        this.materialUUID = orderItem.getMaterialUUID();
+        this.quantity = orderItem.getQuantity();
+        this.purchaseOrder = purchaseOrderJPAEntity;
+        this.price = orderItem.getPrice();
+    }
 }

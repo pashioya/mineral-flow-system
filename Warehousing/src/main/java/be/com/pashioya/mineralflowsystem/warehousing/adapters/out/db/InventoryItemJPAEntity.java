@@ -1,5 +1,6 @@
 package be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db;
 
+import be.com.pashioya.mineralflowsystem.warehousing.domain.InventoryItem;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,4 +22,13 @@ public class InventoryItemJPAEntity {
     private UUID warehouseUUID;
     private int quantity;
     private LocalDateTime dateReceived;
+
+    public InventoryItemJPAEntity(InventoryItem inventoryItem){
+        this.inventoryItemUUID = inventoryItem.getUuid().uuid();
+        this.customerUUID = inventoryItem.getCustomer().getWarehouseCustomerUUID().uuid();
+        this.materialUUID = inventoryItem.getMaterial().getUuid().uuid();
+        this.warehouseUUID = inventoryItem.getWarehouse().getWarehouseUUID().uuid();
+        this.quantity = inventoryItem.getQuantity();
+        this.dateReceived = inventoryItem.getDateReceived();
+    }
 }

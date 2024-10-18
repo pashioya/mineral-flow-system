@@ -2,34 +2,44 @@ package be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db;
 
 import be.com.pashioya.mineralflowsystem.warehousing.domain.ActivePurchaseOrder;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.out.CreateActivePurchaseOrderPort;
+import be.com.pashioya.mineralflowsystem.warehousing.ports.out.LoadActivePurchaseOrderPort;
+import be.com.pashioya.mineralflowsystem.warehousing.ports.out.UpdateActivePurchaseOrderPort;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
 @AllArgsConstructor
-public class ActivePurchaseOrderDBAdapter implements CreateActivePurchaseOrderPort {
+public class ActivePurchaseOrderDBAdapter implements CreateActivePurchaseOrderPort, UpdateActivePurchaseOrderPort, LoadActivePurchaseOrderPort {
 
     ActivePurchaseOrderRepository activePurchaseOrderRepository;
 
     @Override
     public void createActivePurchaseOrder(ActivePurchaseOrder activePurchaseOrder) {
-        ActivePurchaseOrderJPAEntity activePurchaseOrderJPAEntity = new ActivePurchaseOrderJPAEntity();
-        activePurchaseOrderJPAEntity.setPurchaseOrderUUID(activePurchaseOrder.getPurchaseOrderUUID().uuid());
-        activePurchaseOrderJPAEntity.setDateReceived(activePurchaseOrder.getDateReceived());
-        activePurchaseOrderJPAEntity.setDeliveryDate(activePurchaseOrder.getDeliveryDate());
-        activePurchaseOrderJPAEntity.setAddress(activePurchaseOrder.getAddress());
-        activePurchaseOrderJPAEntity.setCustomerUUID(activePurchaseOrder.getWarehouseCustomerUUID().uuid());
-        activePurchaseOrderJPAEntity.setOrderStatus(activePurchaseOrder.getOrderStatus());
-        activePurchaseOrderJPAEntity.setOrderNumber(activePurchaseOrder.getOrderNumber());
-        activePurchaseOrderJPAEntity.setOrderItems(activePurchaseOrder.getOrderItems().stream().map(orderItem -> {
-            OrderItemJPAEntity orderItemJPAEntity = new OrderItemJPAEntity();
-            orderItemJPAEntity.setOrderItemUUID(orderItem.getOrderItemUUID());
-            orderItemJPAEntity.setMaterialUUID(orderItem.getMaterialUUID());
-            orderItemJPAEntity.setPurchaseOrder(activePurchaseOrderJPAEntity);
-            orderItemJPAEntity.setQuantity(1);
-            orderItemJPAEntity.setPrice(orderItem.getPrice());
-            return orderItemJPAEntity;
-        }).toList());
+        ActivePurchaseOrderJPAEntity activePurchaseOrderJPAEntity =  new ActivePurchaseOrderJPAEntity(activePurchaseOrder);
         activePurchaseOrderRepository.save(activePurchaseOrderJPAEntity);
+    }
+
+    @Override
+    public void updateActivePurchaseOrder(ActivePurchaseOrder activePurchaseOrder) {
+        ActivePurchaseOrderJPAEntity activePurchaseOrderJPAEntity = activePurchaseOrderRepository.findById(activePurchaseOrder.getPurchaseOrderUUID().uuid())
+                .orElseThrow();
+        ActivePurchaseOrderJPAEntity updatedEntity = new ActivePurchaseOrderJPAEntity(activePurchaseOrder);
+        // just to make sure the UUID is not changed
+        updatedEntity.setPurchaseOrderUUID(activePurchaseOrderJPAEntity.getPurchaseOrderUUID());
+        activePurchaseOrderRepository.save(updatedEntity);
+    }
+
+    @Override
+    public Optional<ActivePurchaseOrder> loadActivePurchaseOrder(UUID purchaseOrderUUID) {
+        return activePurchaseOrderRepository.findById(purchaseOrderUUID).map(ActivePurchaseOrder::new);
+    }
+
+    @Override
+    public List<ActivePurchaseOrder> loadAllActivePurchaseOrders() {
+        return List.of();
     }
 }
