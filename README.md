@@ -1,49 +1,30 @@
-# Abstract
-Krystal Distribution Group (KdG): Efficient and Seamless Mineral Logistics
-Krystal Distribution Group (KdG) specializes in the efficient and seamless distribution of essential
-raw materials, including gypsum, iron ore, cement, petcoke, and slag. They want to renew their
-logistics system, as it is outdated and hard to change. They need a new system that can be adapted
-easily and makes data available for other systems.
-The new logistics system was baptized as KdG MineralFlow, and it aims to optimize the flow of
-materials from arrival scheduling to final warehousing.
-Currently, KdG handles the following materials, but their state-of-the-art warehouses are capable
-of adapting easily to all sorts of raw materials, so the system needs to be capable of handling these
-kinds of evolutions.
-# Descriptions of Raw Materials
-1. Gypsum:
-   ○ Description: Gypsum is a soft sulfate mineral composed of calcium sulfate dihydrate.
-   It is commonly used in the construction industry for producing plaster, plasterboard,
-   and cement. Gypsum is also used in agriculture as a soil conditioner and fertilizer.
-   ○ Storage Price per Ton per Day: 1$ / t / d
-   ○ Price per Ton: 13$ /ts
-2. Iron Ore:
-   ○ Description: Iron ore is a naturally occurring mineral from which iron is extracted. It
-   is a crucial raw material in the production of steel, which is used extensively in
-   construction, manufacturing, and transportation industries. Common types of iron
-   ore include hematite and magnetite.
-   Applied Computer Science – Programming 6 - Project
-   KdG
-- 3 -
-  ○ Storage Price per Ton per Day: 5$ / t / d
-  ○ Price per Ton: 110$ / t
-3. Cement:
-   ○ Description: Cement is a binder substance used in construction that sets, hardens,
-   and adheres to other materials to bind them together. It is a key ingredient in
-   concrete, mortar, and stucco. Portland cement, made from limestone and clay, is
-   the most common type.
-   ○ Storage Price per Ton per Day: 3$ / t / d
-   ○ Price per Ton: 95$ / t
-4. Petcoke (Petroleum Coke):
-   ○ Description: Petcoke is a carbon-rich solid material derived from oil refining. It is
-   used as a fuel in power generation, cement kilns, and other industrial processes due
-   to its high calorific value. Petcoke is also used in the production of electrodes for the
-   aluminium and steel industries.
-   ○ Storage Price per Ton per Day: 10$ / t / d
-   ○ Price per Ton: 210$ / t
-5. Slag:
-   ○ Description: Slag is a byproduct of the smelting process used to produce metals
-   from their ores. It is used in construction as an aggregate in concrete, road
-   construction, and as a raw material in cement production. Slag helps improve the
-   durability and strength of concrete.
-   ○ Storage Price per Ton per Day: 7$ / t / d
-   ○ Price per Ton: 160$ / t
+# MineralFlowSystem
+MineralFlowSystem is a comprehensive logistics and warehouse management system tailored to streamline the movement, storage, and distribution of raw materials such as gypsum, iron ore, cement, petcoke, and slag. The system is designed to provide efficient management of the mineral supply chain from order creation to final delivery, ensuring seamless operations for warehousing, shipping, and invoicing.
+
+# Key Features
+Purchase Order Management: Create, track, and manage purchase orders for raw materials from suppliers, ensuring accurate quantities and pricing.
+Shipping and Transportation Coordination: Automate the scheduling of trucks and ships for material pick-up and delivery, complete with appointment-based arrival slots for trucks at the warehouse.
+Warehouse Operations: Manage inventory in real-time, including receiving, inspection, and storage of materials. Ensure that stock levels are accurate and materials are stored appropriately for future use or dispatch.
+Inventory Tracking: Maintain a detailed overview of materials stored in the warehouse, ensuring up-to-date records of available stock.
+Invoicing and Financial Management: Handle the financial aspects of material storage, including storage fees, purchase order reconciliation, and invoicing for customer orders.
+Truck Scheduling and Dock Management: Coordinate and streamline the flow of trucks into and out of the warehouse, avoiding bottlenecks and ensuring timely delivery.
+# System Workflow
+Purchase Orders are created to source raw materials from suppliers.
+Shipping Orders are triggered, scheduling transportation via trucks or ships.
+Truck Appointments are booked for warehouse delivery, ensuring efficient unloading.
+Warehouse Reception manages unloading, quality inspection, and reconciliation of incoming materials.
+Inventory is updated in real-time to track stock levels and material availability.
+Storage Fees and invoicing are processed as materials are received and stored.
+Dispatch of materials is coordinated for customer orders, either for direct shipment or held in storage.
+# Bounded Contexts
+Warehousing Context: Manages stock levels, storage capacity, and material types.
+Landside Context: Handles truck appointments, deliveries, and weighing processes.
+Waterside Context: Manages ship docking, inspection, and loading operations.
+Invoicing Context: Automates the calculation of storage fees and commission-based pricing.
+
+# Technologies
+Backend: Written in java using hexagonal architecture, powers robust APIs for handling logistics operations, inventory, and invoicing 
+Frontend: A responsive React-based dashboard for warehouse and site managers to monitor inventory, truck schedules, and shipment statuses.
+Database: Real-time data storage and tracking using SQL databases, ensuring accuracy in material flow.
+Integration: Seamless integration with third-party shipping and invoicing systems.
+KdG MineralFlow is built to enhance operational efficiency, reduce overhead, and maintain smooth logistics operations for large-scale mineral distribution.
