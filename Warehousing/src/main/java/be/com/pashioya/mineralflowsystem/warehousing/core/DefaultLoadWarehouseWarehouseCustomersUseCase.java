@@ -1,7 +1,7 @@
 package be.com.pashioya.mineralflowsystem.warehousing.core;
 
 import be.com.pashioya.mineralflowsystem.warehousing.domain.WarehouseCustomer;
-import be.com.pashioya.mineralflowsystem.warehousing.ports.in.LoadCustomerUseCase;
+import be.com.pashioya.mineralflowsystem.warehousing.ports.in.LoadWarehouseCustomerUseCase;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.out.LoadCustomerPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,16 +12,16 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class DefaultLoadWarehouseCustomersUseCase implements LoadCustomerUseCase {
+public class DefaultLoadWarehouseWarehouseCustomersUseCase implements LoadWarehouseCustomerUseCase {
     LoadCustomerPort loadCustomerPort;
 
     @Override
-    public Optional<WarehouseCustomer> loadCustomer(UUID customerUUID) {
+    public Optional<WarehouseCustomer> loadWarehouseCustomer(UUID customerUUID) {
         return loadCustomerPort.loadCustomer(customerUUID);
     }
 
     @Override
-    public List<WarehouseCustomer> loadCustomers() {
+    public List<WarehouseCustomer> loadWarehouseCustomers() {
         return loadCustomerPort.loadCustomers();
     }
 }

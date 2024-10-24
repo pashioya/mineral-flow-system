@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQModuleTopology {
 
     public static final String CUSTOMER_CREATED_ROUTING_KEY = "customer.created";
-    public static final String PURCHASE_ORDER_CREATED_ROUTING_KEY = "purchaseOrder.created";
+    public static final String PURCHASE_ORDER_CREATED_ROUTING_KEY = "purchase-order.created";
 
     @Bean
     public TopicExchange exchange() {
@@ -17,12 +17,12 @@ public class RabbitMQModuleTopology {
 
     @Bean
     public Queue customerCreatedQueue() {
-        return new Queue("customer.created");
+        return new Queue(CUSTOMER_CREATED_ROUTING_KEY);
     }
 
     @Bean
     public Queue purchaseOrderCreatedQueue() {
-        return new Queue("purchaseOrder.created");
+        return new Queue(PURCHASE_ORDER_CREATED_ROUTING_KEY);
     }
 
     @Bean

@@ -1,9 +1,6 @@
 package be.com.pashioya.mineralflowsystem.warehousing.adapters.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,11 +8,16 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQModuleTopology {
 
     public static final String CUSTOMER_CREATED_ROUTING_KEY = "customer.created";
-    public static final String PURCHASE_ORDER_CREATED_ROUTING_KEY = "purchaseOrder.created";
+    public static final String PURCHASE_ORDER_CREATED_ROUTING_KEY = "purchase-order.created";
 
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange("invoicing");
+        return new TopicExchange("customer");
+    }
+
+    @Bean
+    FanoutExchange purchaseOrderExchange() {
+        return new FanoutExchange("purchase-order");
     }
 
     @Bean

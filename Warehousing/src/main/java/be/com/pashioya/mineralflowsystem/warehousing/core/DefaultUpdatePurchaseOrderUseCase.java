@@ -8,16 +8,19 @@ import be.com.pashioya.mineralflowsystem.warehousing.ports.out.UpdateActivePurch
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class DefaultUpdatePurchaseOrderUseCase implements UpdatePurchaseOrderUseCase {
     private final LoadActivePurchaseOrderPort loadActivePurchaseOrderPort;
-    private final UpdateActivePurchaseOrderPort updateActivePurchaseOrderPort;
+    private final List<UpdateActivePurchaseOrderPort> updateActivePurchaseOrderPorts;
 
     @Override
     public void updatePurchaseOrder(UpdatePurchaseOrderCommand command) {
         ActivePurchaseOrder activePurchaseOrder = loadActivePurchaseOrderPort.loadActivePurchaseOrder(command.purchaseOrderUUID()).orElseThrow();
         activePurchaseOrder.update(command);
-        updateActivePurchaseOrderPort.updateActivePurchaseOrder(new ActivePurchaseOrder());
+        updateActivePurchaseOrderPorts.forEach(
+                updateActivePurchaseOrderPort -> updateActivePurchaseOrderPort.updateActivePurchaseOrder(activePurchaseOrder));
     }
 }

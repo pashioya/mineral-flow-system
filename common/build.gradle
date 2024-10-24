@@ -16,7 +16,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
 
-    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'com.mysql:mysql-connector-j'
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
 
 
@@ -25,5 +25,4 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
-
 }

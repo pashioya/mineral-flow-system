@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface LoadCustomerUseCase {
+public interface LoadWarehouseCustomerUseCase {
 
-    Optional<WarehouseCustomer> loadCustomer(UUID customerUUID);
-    List<WarehouseCustomer> loadCustomers();
+    Optional<WarehouseCustomer> loadWarehouseCustomer(UUID customerUUID);
+    List<WarehouseCustomer> loadWarehouseCustomers();
 }

@@ -40,6 +40,6 @@ public class ActivePurchaseOrderDBAdapter implements CreateActivePurchaseOrderPo
 
     @Override
     public List<ActivePurchaseOrder> loadAllActivePurchaseOrders() {
-        return List.of();
+        return activePurchaseOrderRepository.findAll().stream().map(ActivePurchaseOrder::new).toList();
     }
 }

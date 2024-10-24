@@ -1,46 +1,36 @@
-package be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db;
+package be.com.pashioya.mineralflowsystem.warehousing.adapters.in.web.dto;
 
 import be.com.pashioya.mineralflowsystem.warehousing.domain.ActivePurchaseOrder;
 import be.kdg.prog6.common.domain.OrderStatus;
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Setter
-@Entity
-@Table(name = "active_purchase_orders")
-@Getter
-@NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class ActivePurchaseOrderJPAEntity {
-    @Id
+@Getter
+@Setter
+public class PurchaseOrderDTO {
     private UUID purchaseOrderUUID;
-    private UUID customerUUID;
+    private UUID warehouseCustomerUUID;
     private String orderNumber;
     private LocalDateTime deliveryDate;
     private LocalDateTime dateReceived;
     private String address;
-    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    @OneToMany(mappedBy = "purchaseOrder",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItemJPAEntity> orderItems;
+    private List<OrderItemDTO> orderItems;
 
-    public ActivePurchaseOrderJPAEntity(ActivePurchaseOrder activePurchaseOrder){
-
+    public PurchaseOrderDTO(ActivePurchaseOrder activePurchaseOrder) {
         this.purchaseOrderUUID = activePurchaseOrder.getPurchaseOrderUUID().uuid();
-        this.customerUUID = activePurchaseOrder.getWarehouseCustomerUUID().uuid();
+        this.warehouseCustomerUUID = activePurchaseOrder.getWarehouseCustomerUUID().uuid();
         this.orderNumber = activePurchaseOrder.getOrderNumber();
         this.deliveryDate = activePurchaseOrder.getDeliveryDate();
         this.dateReceived = activePurchaseOrder.getDateReceived();
         this.address = activePurchaseOrder.getAddress();
         this.orderStatus = activePurchaseOrder.getOrderStatus();
-        this.orderItems = activePurchaseOrder.getOrderItems().stream().map(
-                orderItem -> new OrderItemJPAEntity(orderItem, this)
-        ).toList();
-
+        this.orderItems = activePurchaseOrder.getOrderItems().stream().map(OrderItemDTO::new).toList();
     }
 }
