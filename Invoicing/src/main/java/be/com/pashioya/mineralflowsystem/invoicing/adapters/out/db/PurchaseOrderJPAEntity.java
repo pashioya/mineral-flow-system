@@ -25,7 +25,7 @@ public class PurchaseOrderJPAEntity {
     private String address;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "purchaseOrder",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemJPAEntity> orderItems;
 
     public PurchaseOrderJPAEntity(PurchaseOrder purchaseOrder) {
@@ -36,5 +36,8 @@ public class PurchaseOrderJPAEntity {
         this.orderStatus = purchaseOrder.getOrderStatus();
         this.dateReceived = LocalDateTime.now();
         this.deliveryDate = purchaseOrder.getDeliveryDate();
+        this.orderItems = purchaseOrder.getOrderItems().stream().map(
+                orderItem -> new OrderItemJPAEntity(orderItem, this)
+        ).toList();
     }
 }

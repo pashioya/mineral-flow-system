@@ -29,7 +29,7 @@ public class PurchaseOrderUpdatedAMQPPublisher implements UpdateActivePurchaseOr
         var eventBody = new PurchaseOrderUpdatedEvent(
                 activePurchaseOrder.getPurchaseOrderUUID().uuid(),
                 activePurchaseOrder.getAddress(),
-                activePurchaseOrder.getDeliveryDate(),
+                activePurchaseOrder.getDeliveryDate().toString(),
                 activePurchaseOrder.getOrderStatus(),
                 activePurchaseOrder.getOrderItems().stream().map(orderItem -> new OrderItem(
                         orderItem.getOrderItemUUID(),

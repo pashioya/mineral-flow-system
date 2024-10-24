@@ -1,5 +1,6 @@
 package be.com.pashioya.mineralflowsystem.warehousing.domain;
 
+import be.com.pashioya.mineralflowsystem.warehousing.adapters.in.web.dto.OrderItemDTO;
 import be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db.ActivePurchaseOrderJPAEntity;
 import be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db.OrderItemJPAEntity;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.UpdatePurchaseOrderCommand;
@@ -67,6 +68,14 @@ public class ActivePurchaseOrder {
             this.materialUUID = orderItemJPAEntity.getMaterialUUID();
             this.quantity = orderItemJPAEntity.getQuantity();
             this.price = orderItemJPAEntity.getPrice();
+        }
+
+        public OrderItem(OrderItemDTO orderItemDTO) {
+            this.orderItemUUID = orderItemDTO.getOrderItemUUID();
+            this.purchaseOrderUUID = orderItemDTO.getPurchaseOrderUUID();
+            this.materialUUID = orderItemDTO.getMaterialUUID();
+            this.quantity = orderItemDTO.getQuantity();
+            this.price = orderItemDTO.getPrice();
         }
     }
 

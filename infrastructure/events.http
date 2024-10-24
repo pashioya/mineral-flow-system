@@ -4,3 +4,14 @@ GET http://localhost:8091/purchase-orders
 
 ### Get all warehouse customers
 GET http://localhost:8091/warehouse-customers
+
+### Update purchase order
+PATCH http://localhost:8091/purchase-orders/90131fe2-5770-4cdc-a830-1b1a7376346a
+Content-Type: application/json
+
+{
+  "address": "hellostreet, 1",
+  "deliveryDate": "2025-01-01T00:00:00",
+  "orderStatus": "CREATED",
+  "orderItems": []
+}
