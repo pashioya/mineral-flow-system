@@ -9,6 +9,7 @@ public class RabbitMQModuleTopology {
 
     public static final String CUSTOMER_CREATED_ROUTING_KEY = "customer.created";
     public static final String PURCHASE_ORDER_CREATED_ROUTING_KEY = "purchase-order.created";
+    public static final String PURCHASE_ORDER_UPDATED_ROUTING_KEY = "purchase-order.updated";
 
     @Bean
     public TopicExchange exchange() {

@@ -6,6 +6,7 @@ import be.com.pashioya.mineralflowsystem.invoicing.ports.out.CreatePurchaseOrder
 import be.kdg.prog6.common.events.EventCatalog;
 import be.kdg.prog6.common.events.EventHeader;
 import be.kdg.prog6.common.events.EventMessage;
+import be.kdg.prog6.common.facades.invoicing.OrderItem;
 import be.kdg.prog6.common.facades.invoicing.PurchaseOrderCreatedEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class PurchaseOrderCreatedAMQPPublisher implements CreatePurchaseOrderPor
                 purchaseOrder.getAddress(),
                 purchaseOrder.getOrderStatus(),
                 purchaseOrder.getDeliveryDate().toString(),
-                purchaseOrder.getOrderItems().stream().map(orderItem -> new PurchaseOrderCreatedEvent.OrderItem(
+                purchaseOrder.getOrderItems().stream().map(orderItem -> new OrderItem(
                         orderItem.getOrderItemUUID(),
                         orderItem.getPurchaseOrderUUID(),
                         orderItem.getMaterialUUID(),

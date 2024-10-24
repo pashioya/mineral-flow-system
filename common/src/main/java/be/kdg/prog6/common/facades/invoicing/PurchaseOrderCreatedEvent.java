@@ -14,13 +14,6 @@ public record PurchaseOrderCreatedEvent(
         String deliveryDate,
          List<OrderItem>orderItems
 ) implements PurchaseOrderEvent{
-    public record OrderItem(
-            UUID orderItemUUID,
-            UUID purchaseOrderUUID,
-            UUID materialUUID,
-            int quantity,
-            double price
-    ) {
-    }
+
 
 }
