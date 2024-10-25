@@ -35,4 +35,13 @@ MineralFlowSystem is a comprehensive logistics and warehouse management system t
 - **Database**: Real-time data storage and tracking using SQL databases, ensuring accuracy in material flow.
 - **Integration**: Seamless integration with third-party shipping and invoicing systems.
 
+
+## Progress Reports
+
+## 1: Project Kickoff
+- **Date**: 2024-10-025
+- **Progress**: The Warehouse Bounded context has advanced alot. Specifically with the management of storage capacities as well as its management of current orders. The Landside context is being developed to a point where truck appointments can be made and managed. The Waterside context is still in its infancy but has been started. The Invoicing context has also gone far. its now where purchase orders are created. this is temporary while i decide whether some domain changes/ potentially a brand new bounded context are required.
+- ![img.png](docs/img/img.png)
+
+
 MineralFlow is built to enhance operational efficiency, reduce overhead, and maintain smooth logistics operations for large-scale mineral distribution.
