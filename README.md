@@ -31,7 +31,7 @@ MineralFlowSystem is a comprehensive logistics and warehouse management system t
 ## Technologies
 
 - **Backend**: Written in Java using hexagonal architecture, powers robust APIs for handling logistics operations, inventory, and invoicing.
-- **Frontend**: A responsive React-based dashboard for warehouse and site managers to monitor inventory, truck schedules, and shipment statuses.
+- **Frontend**: A responsive React-based dashboard for warehouse and site managers to monitor inventory, truck schedules, and shipment statuses. Project can be found [here](https://github.com/pashioya/mineral-flow-system-frontend)
 - **Database**: Real-time data storage and tracking using SQL databases, ensuring accuracy in material flow.
 - **Integration**: Seamless integration with third-party shipping and invoicing systems.
 
