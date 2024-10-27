@@ -23,7 +23,12 @@ public class PurchaseOrderController {
         return loadPurchaseOrderUseCase.loadAllPurchaseOrders().stream().map(PurchaseOrderDTO::new).toList();
     }
 
-    @PatchMapping("/purchase-orders/{purchaseOrderUUID}")
+    @GetMapping("/purchase-orders/{purchaseOrderUUID}")
+    public PurchaseOrderDTO loadPurchaseOrder(@PathVariable UUID purchaseOrderUUID){
+        return loadPurchaseOrderUseCase.loadPurchaseOrder(purchaseOrderUUID).map(PurchaseOrderDTO::new).orElseThrow();
+    }
+
+    @PutMapping("/purchase-orders/{purchaseOrderUUID}")
     public void updatePurchaseOrder(@PathVariable UUID purchaseOrderUUID, @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
             UpdatePurchaseOrderCommand updatePurchaseOrderCommand = new UpdatePurchaseOrderCommand(
                     purchaseOrderUUID,

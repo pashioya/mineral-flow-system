@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -17,5 +19,10 @@ public class DefaultLoadPurchaseOrderUseCase implements LoadPurchaseOrderUseCase
     @Override
     public List<ActivePurchaseOrder> loadAllPurchaseOrders() {
         return loadActivePurchaseOrderPort.loadAllActivePurchaseOrders();
+    }
+
+    @Override
+    public Optional<ActivePurchaseOrder> loadPurchaseOrder(UUID purchaseOrderUUID) {
+        return loadActivePurchaseOrderPort.loadActivePurchaseOrder(purchaseOrderUUID);
     }
 }
