@@ -46,7 +46,7 @@ public class PurchaseOrderCreatedAMQPPublisher implements CreatePurchaseOrderPor
 
         try {
             rabbitTemplate.convertAndSend(
-                    "invoicing", RabbitMQModuleTopology.PURCHASE_ORDER_CREATED_ROUTING_KEY,
+                    "purchase-order", RabbitMQModuleTopology.PURCHASE_ORDER_CREATED_ROUTING_KEY,
                     EventMessage.builder().eventHeader(eventHeader).eventBody(objectMapper.writeValueAsString(eventBody)).build());
         } catch (Exception e) {
             logger.error("Error while sending purchase order created event to RabbitMQ", e);

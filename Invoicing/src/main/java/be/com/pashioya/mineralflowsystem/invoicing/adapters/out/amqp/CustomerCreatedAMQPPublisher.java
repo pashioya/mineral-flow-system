@@ -38,7 +38,7 @@ public class CustomerCreatedAMQPPublisher implements CreateCustomerPort {
 
         try {
             rabbitTemplate.convertAndSend(
-                     "invoicing",RabbitMQModuleTopology.CUSTOMER_CREATED_ROUTING_KEY,
+                     "customer",RabbitMQModuleTopology.CUSTOMER_CREATED_ROUTING_KEY,
                     EventMessage.builder().eventHeader(eventHeader).eventBody(objectMapper.writeValueAsString(eventBody)).build());
         } catch (Exception e) {
             logger.error("Error while sending customer created event to RabbitMQ", e);
