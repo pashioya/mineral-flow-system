@@ -12,8 +12,13 @@ public class RabbitMQModuleTopology {
     public static final String PURCHASE_ORDER_UPDATED_ROUTING_KEY = "purchase-order.updated";
 
     @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange("invoicing");
+    public FanoutExchange purchaseOrderFanoutExchange() {
+        return new FanoutExchange("purchase-order");
+    }
+
+    @Bean
+    public FanoutExchange customerFanoutExchange() {
+        return new FanoutExchange("customer");
     }
 
     @Bean
@@ -27,13 +32,22 @@ public class RabbitMQModuleTopology {
     }
 
     @Bean
-    public Binding customerCreatedBinding(TopicExchange exchange, Queue customerCreatedQueue) {
-        return BindingBuilder.bind(customerCreatedQueue).to(exchange).with(CUSTOMER_CREATED_ROUTING_KEY);
+    public Queue purchaseOrderUpdatedQueue() {
+        return new Queue(PURCHASE_ORDER_UPDATED_ROUTING_KEY);
     }
 
     @Bean
-    public Binding purchaseOrderCreatedBinding(TopicExchange exchange, Queue purchaseOrderCreatedQueue) {
-        return BindingBuilder.bind(purchaseOrderCreatedQueue).to(exchange).with(PURCHASE_ORDER_CREATED_ROUTING_KEY);
+    public Binding customerCreatedBinding(FanoutExchange customerFanoutExchange, Queue customerCreatedQueue) {
+        return BindingBuilder.bind(customerCreatedQueue).to(customerFanoutExchange);
+    }
+
+    @Bean
+    public Binding purchaseOrderCreatedBinding(FanoutExchange purchaseOrderFanoutExchange, Queue purchaseOrderCreatedQueue) {
+        return BindingBuilder.bind(purchaseOrderCreatedQueue).to(purchaseOrderFanoutExchange);
+    }
+
+    @Bean
+    public Binding purchaseOrderUpdatedBinding(FanoutExchange purchaseOrderFanoutExchange, Queue purchaseOrderUpdatedQueue) {
+        return BindingBuilder.bind(purchaseOrderUpdatedQueue).to(purchaseOrderFanoutExchange);
     }
 }
-
