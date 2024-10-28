@@ -6,6 +6,8 @@ import be.com.pashioya.mineralflowsystem.warehousing.ports.in.LoadPurchaseOrderU
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.UpdatePurchaseOrderCommand;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.UpdatePurchaseOrderUseCase;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,17 +21,17 @@ public class PurchaseOrderController {
     private final UpdatePurchaseOrderUseCase updatePurchaseOrderUseCase;
 
     @GetMapping("/purchase-orders")
-    public List<PurchaseOrderDTO> loadAllPurchaseOrders() {
-        return loadPurchaseOrderUseCase.loadAllPurchaseOrders().stream().map(PurchaseOrderDTO::new).toList();
+    public ResponseEntity<List<PurchaseOrderDTO>> loadAllPurchaseOrders() {
+        return new ResponseEntity<>(loadPurchaseOrderUseCase.loadAllPurchaseOrders().stream().map(PurchaseOrderDTO::new).toList(), HttpStatus.OK);
     }
 
     @GetMapping("/purchase-orders/{purchaseOrderUUID}")
-    public PurchaseOrderDTO loadPurchaseOrder(@PathVariable UUID purchaseOrderUUID){
-        return loadPurchaseOrderUseCase.loadPurchaseOrder(purchaseOrderUUID).map(PurchaseOrderDTO::new).orElseThrow();
+    public ResponseEntity<PurchaseOrderDTO> loadPurchaseOrder(@PathVariable UUID purchaseOrderUUID){
+        return new ResponseEntity<>(loadPurchaseOrderUseCase.loadPurchaseOrder(purchaseOrderUUID).map(PurchaseOrderDTO::new).orElse(null), HttpStatus.OK);
     }
 
     @PutMapping("/purchase-orders/{purchaseOrderUUID}")
-    public void updatePurchaseOrder(@PathVariable UUID purchaseOrderUUID, @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
+    public ResponseEntity<HttpStatus> updatePurchaseOrder(@PathVariable UUID purchaseOrderUUID, @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
             UpdatePurchaseOrderCommand updatePurchaseOrderCommand = new UpdatePurchaseOrderCommand(
                     purchaseOrderUUID,
                     purchaseOrderDTO.getAddress(),
@@ -37,5 +39,6 @@ public class PurchaseOrderController {
                     purchaseOrderDTO.getOrderStatus(),
                     purchaseOrderDTO.getOrderItems().stream().map(ActivePurchaseOrder.OrderItem::new).toList());
             updatePurchaseOrderUseCase.updatePurchaseOrder(updatePurchaseOrderCommand);
+            return new ResponseEntity<>(HttpStatus.OK);
     }
 }
