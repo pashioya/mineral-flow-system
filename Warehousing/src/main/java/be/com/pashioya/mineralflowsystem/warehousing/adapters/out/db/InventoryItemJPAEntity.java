@@ -25,9 +25,9 @@ public class InventoryItemJPAEntity {
 
     public InventoryItemJPAEntity(InventoryItem inventoryItem){
         this.inventoryItemUUID = inventoryItem.getUuid().uuid();
-        this.customerUUID = inventoryItem.getCustomer().getWarehouseCustomerUUID().uuid();
-        this.materialUUID = inventoryItem.getMaterial().getUuid().uuid();
-        this.warehouseUUID = inventoryItem.getWarehouse().getWarehouseUUID().uuid();
+        this.customerUUID = inventoryItem.getWarehouseCustomerUUID().uuid();
+        this.materialUUID = inventoryItem.getMaterialUUID().uuid();
+        this.warehouseUUID = inventoryItem.getWareHouseUUID().uuid();
         this.quantity = inventoryItem.getQuantity();
         this.dateReceived = inventoryItem.getDateReceived();
     }

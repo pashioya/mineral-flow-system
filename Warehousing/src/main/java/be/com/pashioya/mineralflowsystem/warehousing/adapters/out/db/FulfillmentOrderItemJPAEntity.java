@@ -17,6 +17,7 @@ public class FulfillmentOrderItemJPAEntity {
     @Id
     private UUID fulfillmentOrderItemUUID;
     private UUID materialUUID;
+    private UUID warehouseUUID;
     private int quantity;
     private double price;
     @ManyToOne
@@ -30,5 +31,6 @@ public class FulfillmentOrderItemJPAEntity {
         this.quantity = fulfillmentOrderItem.getQuantity();
         this.price = fulfillmentOrderItem.getPrice();
         this.fulfillmentOrder = fulfillmentOrderJPAEntity;
+        this.warehouseUUID = fulfillmentOrderItem.getWarehouseUUID();
     }
 }

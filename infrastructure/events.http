@@ -16,25 +16,30 @@ Content-Type: application/json
   "orderItems": []
 }
 
+
+
 ### Create Fulfillment Order
 POST http://localhost:8091/fulfillment-orders
 Content-Type: application/json
 
 {
-    "purchaseOrderUUID": "ca693477-2146-4ef3-90f2-ada5b19a0338",
-    "customerUUID": "c3d21b42-87b6-4c42-bf59-5a2fc2a6e0bd",
-    "warehouseUUID": "7f12d1c5-9d4f-4c78-9156-3f5f32e3b68f",
-    "orderNumber": "FO-2024-0001",
+    "purchaseOrderUUID": "b4411393-b901-44ab-88f9-ce8c5a9094de"
+}
+
+### Create Purchase Order
+POST http://localhost:8094/purchase-orders
+Content-Type: application/json
+
+{
+    "address": "Pashioyastraat 1, 2018 Antwerpen, Belgium",
+    "deliveryDate": "2025-01-01T00:00:00",
+    "orderStatus": "CREATED",
+    "orderNumber": "PO-2021-0023",
     "orderItems": [
         {
-            "materialUUID": "4e96dcf3-b5de-4b6b-812e-9e23e6435a5e",
-            "quantity": 10,
-            "price": 34.5
-        },
-        {
-            "materialUUID": "4e96dcf3-b5de-4b6b-812e-9e23e6435a5e",
-            "quantity": 5,
-            "price": 12.5
+            "materialUUID": "",
+            "quantity": 1,
+            "price": 100
         }
     ]
 }

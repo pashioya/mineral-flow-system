@@ -1,6 +1,5 @@
 package be.com.pashioya.mineralflowsystem.warehousing.adapters.out.db;
 
-import be.com.pashioya.mineralflowsystem.warehousing.domain.Material;
 import be.com.pashioya.mineralflowsystem.warehousing.domain.Warehouse;
 import be.com.pashioya.mineralflowsystem.warehousing.domain.WarehouseCustomer;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.out.CreateWarehousePort;
@@ -25,7 +24,6 @@ public class WarehouseDBAdapter implements CreateWarehousePort, LoadWarehousePor
     public void createWarehouse() {
         List<WarehouseJPAEntity> warehouses = warehouseRepository.findAll();
         WarehouseJPAEntity warehouse = new WarehouseJPAEntity();
-
         warehouse.setWarehouseNumber(warehouses.size() + 1);
         warehouse.setWarehouseUUID(UUID.randomUUID());
         warehouse.setCapacity(0);
@@ -35,38 +33,30 @@ public class WarehouseDBAdapter implements CreateWarehousePort, LoadWarehousePor
 
     @Override
     public Optional<Warehouse> loadWarehouse(UUID warehouseUUID) {
-        WarehouseJPAEntity warehouseJPAEntity = warehouseRepository.findById(warehouseUUID).orElseThrow();
-        return Optional.of(jpaToWarehouse(warehouseJPAEntity));
+        return  warehouseRepository.findById(warehouseUUID).map(Warehouse::new);
     }
 
     @Override
     public List<Warehouse> loadAllWarehouses() {
-        return warehouseRepository.findAll().stream().map(this::jpaToWarehouse).toList();
+        return warehouseRepository.findAll().stream().map(Warehouse::new).toList();
     }
 
-    private Warehouse jpaToWarehouse(WarehouseJPAEntity warehouseJPAEntity) {
-        Warehouse warehouse = new Warehouse(warehouseJPAEntity);
-        if (warehouseJPAEntity.getCustomerUUID() != null) {
-            WarehouseCustomer customer = new WarehouseCustomer(customerProjectionRepository.findById(warehouseJPAEntity.getCustomerUUID()).orElseThrow());
-            warehouse.setCustomer(customer);
-        }
-        if (warehouseJPAEntity.getMaterialUUID() != null) {
-            Material material = new Material(materialRepository.findById(warehouseJPAEntity.getMaterialUUID()).orElseThrow());
-            warehouse.setMaterial(material);
-        }
-        return warehouse;
+    @Override
+    public List<Warehouse> loadByWarehouseCustomerUUID(WarehouseCustomer.WarehouseCustomerUUID warehouseCustomerUUID) {
+        return warehouseRepository.findByCustomerUUID(warehouseCustomerUUID.uuid()).stream().map(Warehouse::new).toList();
     }
+
 
     @Override
     public void updateWarehouse(Warehouse warehouse) {
         WarehouseJPAEntity warehouseJPAEntity = warehouseRepository.findById(warehouse.getWarehouseUUID().uuid()).orElseThrow();
         warehouseJPAEntity.setCapacity(warehouse.getCapacity());
         warehouseJPAEntity.setWarehouseNumber(warehouse.getWarehouseNumber());
-        if (warehouse.getCustomer() != null) {
-            warehouseJPAEntity.setCustomerUUID(warehouse.getCustomer().getWarehouseCustomerUUID().uuid());
+        if (warehouse.getWarehouseCustomerUUID() != null) {
+            warehouseJPAEntity.setCustomerUUID(warehouse.getWarehouseCustomerUUID().uuid());
         }
-        if (warehouse.getMaterial() != null) {
-            warehouseJPAEntity.setMaterialUUID(warehouse.getMaterial().getUuid().uuid());
+        if (warehouse.getMaterialUUID() != null) {
+            warehouseJPAEntity.setMaterialUUID(warehouse.getMaterialUUID().uuid());
         }
         warehouseRepository.save(warehouseJPAEntity);
     }

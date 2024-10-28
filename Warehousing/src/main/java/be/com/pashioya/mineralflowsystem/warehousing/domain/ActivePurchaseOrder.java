@@ -27,7 +27,7 @@ public class ActivePurchaseOrder {
     private LocalDateTime dateReceived;
     private String address;
     private OrderStatus orderStatus;
-    private List<OrderItem> orderItems;
+    private List<PurchaseOrderItem> purchaseOrderItems;
 
     public ActivePurchaseOrder(ActivePurchaseOrderJPAEntity activePurchaseOrderJPAEntity) {
         this.purchaseOrderUUID = new PurchaseOrderUUID(activePurchaseOrderJPAEntity.getPurchaseOrderUUID());
@@ -37,7 +37,7 @@ public class ActivePurchaseOrder {
         this.dateReceived = activePurchaseOrderJPAEntity.getDateReceived();
         this.address = activePurchaseOrderJPAEntity.getAddress();
         this.orderStatus = activePurchaseOrderJPAEntity.getOrderStatus();
-        this.orderItems = activePurchaseOrderJPAEntity.getOrderItems().stream().map(OrderItem::new).toList();
+        this.purchaseOrderItems = activePurchaseOrderJPAEntity.getOrderItems().stream().map(PurchaseOrderItem::new).toList();
     }
 
     public record PurchaseOrderUUID(UUID uuid) {
@@ -47,14 +47,14 @@ public class ActivePurchaseOrder {
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
-    public static class OrderItem {
+    public static class PurchaseOrderItem {
         private UUID orderItemUUID;
         private UUID purchaseOrderUUID;
         private UUID materialUUID;
         private int quantity;
         private double price;
 
-        public OrderItem(UUID materialUUID, int quantity, double price) {
+        public PurchaseOrderItem(UUID materialUUID, int quantity, double price) {
             this.orderItemUUID = UUID.randomUUID();
             this.purchaseOrderUUID = null;
             this.materialUUID = materialUUID;
@@ -62,7 +62,7 @@ public class ActivePurchaseOrder {
             this.price = price;
         }
 
-        public OrderItem(OrderItemJPAEntity orderItemJPAEntity) {
+        public PurchaseOrderItem(OrderItemJPAEntity orderItemJPAEntity) {
             this.orderItemUUID = orderItemJPAEntity.getOrderItemUUID();
             this.purchaseOrderUUID = orderItemJPAEntity.getPurchaseOrder().getPurchaseOrderUUID();
             this.materialUUID = orderItemJPAEntity.getMaterialUUID();
@@ -70,7 +70,7 @@ public class ActivePurchaseOrder {
             this.price = orderItemJPAEntity.getPrice();
         }
 
-        public OrderItem(OrderItemDTO orderItemDTO) {
+        public PurchaseOrderItem(OrderItemDTO orderItemDTO) {
             this.orderItemUUID = orderItemDTO.getOrderItemUUID();
             this.purchaseOrderUUID = orderItemDTO.getPurchaseOrderUUID();
             this.materialUUID = orderItemDTO.getMaterialUUID();
@@ -87,7 +87,7 @@ public class ActivePurchaseOrder {
         this.dateReceived = LocalDateTime.now();
         this.address = purchaseOrderCreatedEvent.address();
         this.orderStatus = purchaseOrderCreatedEvent.orderStatus();
-        this.orderItems = purchaseOrderCreatedEvent.orderItems().stream().map(orderItem -> new OrderItem(
+        this.purchaseOrderItems = purchaseOrderCreatedEvent.orderItems().stream().map(orderItem -> new PurchaseOrderItem(
                 orderItem.materialUUID(),
                 orderItem.quantity(),
                 orderItem.price()
@@ -98,6 +98,6 @@ public class ActivePurchaseOrder {
         this.address = updatePurchaseOrderCommand.address();
         this.deliveryDate = updatePurchaseOrderCommand.deliveryDate();
         this.orderStatus = updatePurchaseOrderCommand.orderStatus();
-        this.orderItems = updatePurchaseOrderCommand.orderItems();
+        this.purchaseOrderItems = updatePurchaseOrderCommand.purchaseOrderItems();
     }
 }

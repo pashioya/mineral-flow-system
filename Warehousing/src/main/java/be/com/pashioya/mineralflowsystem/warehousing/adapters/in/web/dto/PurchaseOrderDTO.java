@@ -31,6 +31,6 @@ public class PurchaseOrderDTO {
         this.dateReceived = activePurchaseOrder.getDateReceived();
         this.address = activePurchaseOrder.getAddress();
         this.orderStatus = activePurchaseOrder.getOrderStatus();
-        this.orderItems = activePurchaseOrder.getOrderItems().stream().map(OrderItemDTO::new).toList();
+        this.orderItems = activePurchaseOrder.getPurchaseOrderItems().stream().map(OrderItemDTO::new).toList();
     }
 }

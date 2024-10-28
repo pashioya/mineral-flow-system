@@ -38,7 +38,7 @@ public class ActivePurchaseOrderJPAEntity {
         this.dateReceived = activePurchaseOrder.getDateReceived();
         this.address = activePurchaseOrder.getAddress();
         this.orderStatus = activePurchaseOrder.getOrderStatus();
-        this.orderItems = activePurchaseOrder.getOrderItems().stream().map(
+        this.orderItems = activePurchaseOrder.getPurchaseOrderItems().stream().map(
                 orderItem -> new OrderItemJPAEntity(orderItem, this)
         ).toList();
 

@@ -31,7 +31,7 @@ public class PurchaseOrderUpdatedAMQPPublisher implements UpdateActivePurchaseOr
                 activePurchaseOrder.getAddress(),
                 activePurchaseOrder.getDeliveryDate().toString(),
                 activePurchaseOrder.getOrderStatus(),
-                activePurchaseOrder.getOrderItems().stream().map(orderItem -> new OrderItem(
+                activePurchaseOrder.getPurchaseOrderItems().stream().map(orderItem -> new OrderItem(
                         orderItem.getOrderItemUUID(),
                         orderItem.getPurchaseOrderUUID(),
                         orderItem.getMaterialUUID(),

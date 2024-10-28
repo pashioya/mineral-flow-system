@@ -34,15 +34,15 @@ public class DefaultCreateInventoryItemUseCase implements CreateInventoryItemUse
             Warehouse warehouse = loadWarehousePort.loadWarehouse(command.warehouseUUID())
                     .orElseThrow(() -> new IllegalArgumentException("Warehouse not found"));
 
-            if (warehouse.getCustomer() != null &&
-                !warehouse.getCustomer().getWarehouseCustomerUUID().uuid().equals(command.customerUUID())) {
-                logger.error("Warehouse already has a different customer: {}", warehouse.getCustomer().getWarehouseCustomerUUID());
+            if (warehouse.getWarehouseCustomerUUID() != null &&
+                !warehouse.getWarehouseCustomerUUID().uuid().equals(command.customerUUID())) {
+                logger.error("Warehouse already has a different customer: {}", warehouse.getWarehouseCustomerUUID().uuid());
                 return;  // Optionally return or handle this error case gracefully.
             }
 
-            if (warehouse.getMaterial() != null &&
-                !warehouse.getMaterial().getUuid().uuid().equals(command.materialUUID())) {
-                logger.error("Warehouse already has a different material: {}", warehouse.getMaterial().getUuid());
+            if (warehouse.getMaterialUUID() != null &&
+                !warehouse.getMaterialUUID().uuid().equals(command.materialUUID())) {
+                logger.error("Warehouse already has a different material: {}", warehouse.getMaterialUUID().uuid());
                 return;  // Optionally return or handle this error case gracefully.
             }
 
@@ -51,17 +51,17 @@ public class DefaultCreateInventoryItemUseCase implements CreateInventoryItemUse
 
             InventoryItem inventoryItem = new InventoryItem(
                     new InventoryItem.InventoryItemUUID(UUID.randomUUID()),
-                    customer,
-                    material,
-                    warehouse,
+                    customer.getWarehouseCustomerUUID(),
+                    material.getUuid(),
+                    warehouse.getWarehouseUUID(),
                     command.quantity(),
                     command.dateReceived()
             );
             createInventoryItemPort.createInventoryItem(inventoryItem);
 
             // Update warehouse data
-            warehouse.setCustomer(customer);
-            warehouse.setMaterial(material);
+            warehouse.setWarehouseCustomerUUID(customer.getWarehouseCustomerUUID());
+            warehouse.setMaterialUUID(material.getUuid());
             warehouse.setCapacity(warehouse.getCapacity() + command.quantity());
             updateWarehousePort.updateWarehouse(warehouse);
 

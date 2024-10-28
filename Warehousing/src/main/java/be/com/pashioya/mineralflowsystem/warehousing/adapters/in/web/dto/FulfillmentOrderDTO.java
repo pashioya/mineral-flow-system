@@ -15,7 +15,6 @@ import java.util.UUID;
 @Setter
 public class FulfillmentOrderDTO {
     private UUID fulfillmentOrderUUID;
-    private UUID warehouseUUID;
     private UUID purchaseOrderUUID;
     private UUID customerUUID;
     private String orderNumber;
@@ -28,7 +27,6 @@ public class FulfillmentOrderDTO {
 
     public FulfillmentOrderDTO(FulfillmentOrder fulfillmentOrder) {
         this.fulfillmentOrderUUID = fulfillmentOrder.getFulfillmentOrderUUID().uuid();
-        this.warehouseUUID = fulfillmentOrder.getWarehouseUUID();
         this.purchaseOrderUUID = fulfillmentOrder.getPurchaseOrderUUID();
         this.customerUUID = fulfillmentOrder.getWarehouseCustomerUUID().uuid();
         this.orderNumber = fulfillmentOrder.getOrderNumber();

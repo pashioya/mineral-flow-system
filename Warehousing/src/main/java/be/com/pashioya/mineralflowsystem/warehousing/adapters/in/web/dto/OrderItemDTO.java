@@ -17,11 +17,11 @@ public class OrderItemDTO {
     private int quantity;
     private double price;
 
-    public OrderItemDTO(ActivePurchaseOrder.OrderItem orderItem) {
-        this.orderItemUUID = orderItem.getOrderItemUUID();
-        this.purchaseOrderUUID = orderItem.getPurchaseOrderUUID();
-        this.materialUUID = orderItem.getMaterialUUID();
-        this.quantity = orderItem.getQuantity();
-        this.price = orderItem.getPrice();
+    public OrderItemDTO(ActivePurchaseOrder.PurchaseOrderItem purchaseOrderItem) {
+        this.orderItemUUID = purchaseOrderItem.getOrderItemUUID();
+        this.purchaseOrderUUID = purchaseOrderItem.getPurchaseOrderUUID();
+        this.materialUUID = purchaseOrderItem.getMaterialUUID();
+        this.quantity = purchaseOrderItem.getQuantity();
+        this.price = purchaseOrderItem.getPrice();
     }
 }

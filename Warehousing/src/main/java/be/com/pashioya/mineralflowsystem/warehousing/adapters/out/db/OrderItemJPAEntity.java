@@ -23,11 +23,11 @@ public class OrderItemJPAEntity {
     @JoinColumn(name = "purchase_orderuuid")
     private ActivePurchaseOrderJPAEntity purchaseOrder;
 
-    public OrderItemJPAEntity(ActivePurchaseOrder.OrderItem orderItem, ActivePurchaseOrderJPAEntity activePurchaseOrderJPAEntity) {
-        this.orderItemUUID = orderItem.getOrderItemUUID();
-        this.materialUUID = orderItem.getMaterialUUID();
-        this.quantity = orderItem.getQuantity();
-        this.price = orderItem.getPrice();
+    public OrderItemJPAEntity(ActivePurchaseOrder.PurchaseOrderItem purchaseOrderItem, ActivePurchaseOrderJPAEntity activePurchaseOrderJPAEntity) {
+        this.orderItemUUID = purchaseOrderItem.getOrderItemUUID();
+        this.materialUUID = purchaseOrderItem.getMaterialUUID();
+        this.quantity = purchaseOrderItem.getQuantity();
+        this.price = purchaseOrderItem.getPrice();
         this.purchaseOrder = activePurchaseOrderJPAEntity;
     }
 }

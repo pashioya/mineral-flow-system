@@ -19,7 +19,6 @@ import java.util.UUID;
 public class FulfillmentOrderJPAEntity {
     @Id
     private UUID fulfillmentOrderUUID;
-    private UUID warehouseUUID;
     private UUID purchaseOrderUUID;
     private UUID customerUUID;
     private String orderNumber;
@@ -32,7 +31,6 @@ public class FulfillmentOrderJPAEntity {
 
     public FulfillmentOrderJPAEntity(FulfillmentOrder fulfillmentOrder){
         this.fulfillmentOrderUUID = fulfillmentOrder.getFulfillmentOrderUUID().uuid();
-        this.warehouseUUID = fulfillmentOrder.getWarehouseUUID();
         this.purchaseOrderUUID = fulfillmentOrder.getPurchaseOrderUUID();
         this.dateOrdered = fulfillmentOrder.getDateOrdered();
         this.expectedDeliveryDate = fulfillmentOrder.getExpectedDeliveryDate();

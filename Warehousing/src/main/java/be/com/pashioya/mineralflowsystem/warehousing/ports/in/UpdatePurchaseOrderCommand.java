@@ -11,6 +11,6 @@ public record UpdatePurchaseOrderCommand(UUID purchaseOrderUUID,
                                          String address,
                                          LocalDateTime deliveryDate,
                                          OrderStatus orderStatus,
-                                         List<ActivePurchaseOrder.OrderItem>orderItems)
+                                         List<ActivePurchaseOrder.PurchaseOrderItem> purchaseOrderItems)
                                           {
 }

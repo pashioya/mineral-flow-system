@@ -37,7 +37,7 @@ public class PurchaseOrderController {
                     purchaseOrderDTO.getAddress(),
                     purchaseOrderDTO.getDeliveryDate(),
                     purchaseOrderDTO.getOrderStatus(),
-                    purchaseOrderDTO.getOrderItems().stream().map(ActivePurchaseOrder.OrderItem::new).toList());
+                    purchaseOrderDTO.getOrderItems().stream().map(ActivePurchaseOrder.PurchaseOrderItem::new).toList());
             updatePurchaseOrderUseCase.updatePurchaseOrder(updatePurchaseOrderCommand);
             return new ResponseEntity<>(HttpStatus.OK);
     }

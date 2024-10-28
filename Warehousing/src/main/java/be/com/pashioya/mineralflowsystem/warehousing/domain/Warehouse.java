@@ -15,14 +15,20 @@ import java.util.UUID;
 public class Warehouse {
     private WareHouseUUID warehouseUUID;
     private int warehouseNumber;
-    private WarehouseCustomer customer;
+    private WarehouseCustomer.WarehouseCustomerUUID warehouseCustomerUUID;
     private double capacity;
-    private Material material;
+    private Material.MaterialUUID materialUUID;
 
     public Warehouse(WarehouseJPAEntity warehouseJPAEntity) {
         this.warehouseUUID = new WareHouseUUID(warehouseJPAEntity.getWarehouseUUID());
         this.warehouseNumber = warehouseJPAEntity.getWarehouseNumber();
         this.capacity = warehouseJPAEntity.getCapacity();
+        if (warehouseJPAEntity.getCustomerUUID() != null) {
+            this.warehouseCustomerUUID = new WarehouseCustomer.WarehouseCustomerUUID(warehouseJPAEntity.getCustomerUUID());
+        }
+        if (warehouseJPAEntity.getMaterialUUID() != null) {
+            this.materialUUID = new Material.MaterialUUID(warehouseJPAEntity.getMaterialUUID());
+        }
     }
 
     public record WareHouseUUID(UUID uuid) {
