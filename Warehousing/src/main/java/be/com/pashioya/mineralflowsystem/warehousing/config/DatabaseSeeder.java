@@ -5,16 +5,14 @@ import be.com.pashioya.mineralflowsystem.warehousing.core.*;
 import be.com.pashioya.mineralflowsystem.warehousing.domain.Material;
 import be.com.pashioya.mineralflowsystem.warehousing.domain.Warehouse;
 import be.com.pashioya.mineralflowsystem.warehousing.domain.WarehouseCustomer;
-import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateInventoryItemCommand;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateMaterialCommand;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.in.CreateWarehouseCommand;
 import be.com.pashioya.mineralflowsystem.warehousing.ports.out.CreateWareHouseCustomerPort;
+import be.com.pashioya.mineralflowsystem.warehousing.ports.out.UpdateWarehousePort;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,10 +27,11 @@ public class DatabaseSeeder implements ApplicationRunner {
     private final DefaultCreateInventoryItemUseCase defaultCreateInventoryItemUseCase;
     private final DefaultLoadMaterialsUseCase defaultLoadMaterialUseCase;
     private final CreateWareHouseCustomerPort createWareHouseCustomerPort;
+    private final UpdateWarehousePort updateWarehousePort;
 
     public void seed() {
 
-        for (int i = 0; i < 15; i++){
+        for (int i = 0; i < 25; i++){
             defaultCreateWarehouseUseCase.createWarehouse(new CreateWarehouseCommand());
         }
 
@@ -81,20 +80,25 @@ public class DatabaseSeeder implements ApplicationRunner {
                 )
         );
 
-        for (int i = 0; i < 3; i++){
-            int randomIndex = (int) (Math.random() * warehouses.size());
-            Warehouse warehouse = warehouses.get(randomIndex);
-
-            defaultCreateInventoryItemUseCase.createInventoryItem(
-                    new CreateInventoryItemCommand(
-                            customerUUID,
-                            materials.get(i).getUuid().uuid(),
-                            warehouse.getWarehouseUUID().uuid(),
-                            (int) (Math.random() * 100),
-                            LocalDateTime.now()
-                    )
-            );
+        for (int i = 0; i < materials.size(); i++){
+            warehouses.get(i).setWarehouseCustomerUUID(new WarehouseCustomer.WarehouseCustomerUUID(customerUUID));
+            warehouses.get(i).setMaterialUUID(materials.get(i).getUuid());
+            updateWarehousePort.updateWarehouse(warehouses.get(i));
         }
+
+//        for (int i = 0; i < 3; i++){
+//            int randomIndex = (int) (Math.random() * warehouses.size());
+//            Warehouse warehouse = warehouses.get(randomIndex);
+//            defaultCreateInventoryItemUseCase.createInventoryItem(
+//                    new CreateInventoryItemCommand(
+//                            customerUUID,
+//                            materials.get(i).getUuid().uuid(),
+//                            warehouse.getWarehouseUUID().uuid(),
+//                            (int) (Math.random() * 100),
+//                            LocalDateTime.now()
+//                    )
+//            );
+//        }
     }
 
     @Override

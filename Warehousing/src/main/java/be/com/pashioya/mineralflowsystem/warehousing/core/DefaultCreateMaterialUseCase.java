@@ -7,17 +7,19 @@ import be.com.pashioya.mineralflowsystem.warehousing.domain.Material;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class DefaultCreateMaterialUseCase implements CreateMaterialUseCase {
 
-    private final CreateMaterialPort createMaterialPort;
+    private final List<CreateMaterialPort> createMaterialPorts;
 
     @Override
     public void createMaterial(CreateMaterialCommand command) {
-        createMaterialPort.materialCreated(new Material(new Material.MaterialUUID(UUID.randomUUID()),command.name(), command.description(), command.price(), command.storagePrice()));
-    }
+        createMaterialPorts.forEach(createMaterialPort ->
+        createMaterialPort.materialCreated(new Material(new Material.MaterialUUID(UUID.randomUUID()),command.name(), command.description(), command.price(), command.storagePrice()))
+    );}
 
 }

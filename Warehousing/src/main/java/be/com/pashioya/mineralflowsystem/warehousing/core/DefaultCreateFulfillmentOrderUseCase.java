@@ -12,6 +12,8 @@ import be.com.pashioya.mineralflowsystem.warehousing.ports.out.LoadInventoryItem
 import be.com.pashioya.mineralflowsystem.warehousing.ports.out.LoadWarehousePort;
 import be.kdg.prog6.common.domain.OrderStatus;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,53 +29,80 @@ public class DefaultCreateFulfillmentOrderUseCase implements CreateFulfillmentOr
     private final LoadActivePurchaseOrderPort loadActivePurchaseOrderPort;
     private final LoadInventoryItemPort loadInventoryItemPort;
     private final LoadWarehousePort loadWarehousePort;
+    private final Logger logger = LoggerFactory.getLogger(DefaultCreateFulfillmentOrderUseCase.class);
 
-@Override
-public void createFulfillmentOrder(CreateFulfillmentOrderCommand command) {
+    @Override
+    public void createFulfillmentOrder(CreateFulfillmentOrderCommand command) {
+        ActivePurchaseOrder activePurchaseOrder = loadActivePurchaseOrder(command.purchaseOrderUUID());
+        List<InventoryItem> inventoryItems = loadInventoryItemPort.loadByCustomerUUID(activePurchaseOrder.getWarehouseCustomerUUID());
+        List<Warehouse> warehouses = loadWarehousePort.loadByWarehouseCustomerUUID(activePurchaseOrder.getWarehouseCustomerUUID());
 
-    Optional<ActivePurchaseOrder> activePurchaseOrder = loadActivePurchaseOrderPort.loadActivePurchaseOrder(command.purchaseOrderUUID());
+        FulfillmentOrder fulfillmentOrder = initializeFulfillmentOrder(activePurchaseOrder);
+        fulfillmentOrder.setOrderItems(createFulfillmentOrderItems(activePurchaseOrder, warehouses, inventoryItems));
 
-    if (activePurchaseOrder.isEmpty()) {
-        throw new RuntimeException("Active purchase order not found");
+        createFulfillmentOrderPort.createFulfillmentOrder(fulfillmentOrder);
     }
 
-    List<InventoryItem> inventoryItems = loadInventoryItemPort.loadByCustomerUUID(activePurchaseOrder.get().getWarehouseCustomerUUID());
-    List<Warehouse> warehouses = loadWarehousePort.loadByWarehouseCustomerUUID(activePurchaseOrder.get().getWarehouseCustomerUUID());
+    private ActivePurchaseOrder loadActivePurchaseOrder(UUID purchaseOrderUUID) {
+        return loadActivePurchaseOrderPort.loadActivePurchaseOrder(purchaseOrderUUID)
+                .orElseThrow(() -> new RuntimeException("Active purchase order not found"));
+    }
 
-    FulfillmentOrder fulfillmentOrder = new FulfillmentOrder();
+    private FulfillmentOrder initializeFulfillmentOrder(ActivePurchaseOrder activePurchaseOrder) {
+        FulfillmentOrder fulfillmentOrder = new FulfillmentOrder();
+        fulfillmentOrder.setFulfillmentOrderUUID(new FulfillmentOrder.FulfillmentOrderUUID(UUID.randomUUID()));
+        fulfillmentOrder.setDateOrdered(LocalDateTime.now());
+        fulfillmentOrder.setOrderStatus(OrderStatus.CREATED);
+        fulfillmentOrder.setExpectedDeliveryDate(LocalDateTime.now().plusDays(5));
+        fulfillmentOrder.setWarehouseCustomerUUID(activePurchaseOrder.getWarehouseCustomerUUID());
+        return fulfillmentOrder;
+    }
 
-    fulfillmentOrder.setDateOrdered(LocalDateTime.now());
-    fulfillmentOrder.setOrderStatus(OrderStatus.CREATED);
-    fulfillmentOrder.setExpectedDeliveryDate(LocalDateTime.now().plusDays(5));
-    fulfillmentOrder.setWarehouseCustomerUUID(activePurchaseOrder.get().getWarehouseCustomerUUID());
+    private List<FulfillmentOrder.FulfillmentOrderItem> createFulfillmentOrderItems(
+            ActivePurchaseOrder activePurchaseOrder, List<Warehouse> warehouses, List<InventoryItem> inventoryItems) {
 
-    fulfillmentOrder.setOrderItems(
-        activePurchaseOrder.get().getPurchaseOrderItems().stream().map(purchaseOrderItem -> {
-            // Find the warehouse that has the matching material UUID
-            Optional<Warehouse> matchingWarehouse = warehouses.stream()
-                .filter(warehouse -> inventoryItems.stream()
-                    .anyMatch(inventoryItem ->
-                        inventoryItem.getMaterialUUID().uuid().equals(purchaseOrderItem.getMaterialUUID())
-                        && inventoryItem.getWareHouseUUID().equals(warehouse.getWarehouseUUID())
-                    )
-                )
-                .findFirst();
+        return activePurchaseOrder.getPurchaseOrderItems().stream()
+                .map(purchaseOrderItem -> findOrCreateFulfillmentOrderItem(purchaseOrderItem, warehouses, inventoryItems, activePurchaseOrder))
+                .toList();
+    }
 
-            UUID warehouseUUID = matchingWarehouse
+    private FulfillmentOrder.FulfillmentOrderItem findOrCreateFulfillmentOrderItem(
+            ActivePurchaseOrder.PurchaseOrderItem purchaseOrderItem,
+            List<Warehouse> warehouses, List<InventoryItem> inventoryItems, ActivePurchaseOrder activePurchaseOrder) {
+
+        Optional<Warehouse> matchingWarehouse = findMatchingWarehouse(warehouses, inventoryItems, purchaseOrderItem);
+        logger.info("Warehouse with matching material UUID: {}", matchingWarehouse);
+
+        UUID warehouseUUID = matchingWarehouse
                 .map(Warehouse::getWarehouseUUID)
-                .orElseThrow(() -> new RuntimeException("No warehouse found with matching material UUID")).uuid();
+                .orElseGet(() -> findWarehouseForMaterial(activePurchaseOrder, purchaseOrderItem, warehouses)).uuid();
 
-            return new FulfillmentOrder.FulfillmentOrderItem(
+        return new FulfillmentOrder.FulfillmentOrderItem(
                 purchaseOrderItem.getMaterialUUID(),
                 purchaseOrderItem.getQuantity(),
                 purchaseOrderItem.getPrice(),
-                fulfillmentOrder.getFulfillmentOrderUUID().uuid(),
+                UUID.randomUUID(),
                 warehouseUUID
-            );
-        }).toList()
-    );
+        );
+    }
 
-        createFulfillmentOrderPort.createFulfillmentOrder(fulfillmentOrder);
+    private Optional<Warehouse> findMatchingWarehouse(
+            List<Warehouse> warehouses, List<InventoryItem> inventoryItems, ActivePurchaseOrder.PurchaseOrderItem purchaseOrderItem) {
 
-}
+        return warehouses.stream()
+                .filter(warehouse -> inventoryItems.stream()
+                        .anyMatch(inventoryItem ->
+                                inventoryItem.getMaterialUUID().uuid().equals(purchaseOrderItem.getMaterialUUID()) &&
+                                        inventoryItem.getWareHouseUUID().equals(warehouse.getWarehouseUUID())))
+                .findFirst();
+    }
+
+    private Warehouse.WareHouseUUID findWarehouseForMaterial(ActivePurchaseOrder activePurchaseOrder, ActivePurchaseOrder.PurchaseOrderItem purchaseOrderItem, List<Warehouse> warehouses) {
+        return warehouses.stream()
+                .filter(warehouse -> warehouse.getWarehouseCustomerUUID().equals(activePurchaseOrder.getWarehouseCustomerUUID()) &&
+                        warehouse.getMaterialUUID().uuid().equals(purchaseOrderItem.getMaterialUUID()))
+                .findFirst()
+                .map(Warehouse::getWarehouseUUID)
+                .orElseThrow(() -> new RuntimeException("No available warehouse found for material: " + purchaseOrderItem.getMaterialUUID()));
+    }
 }

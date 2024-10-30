@@ -9,6 +9,7 @@ public class RabbitMQModuleTopology {
 
     public static final String CUSTOMER_CREATED_ROUTING_KEY = "customer.created";
     public static final String PURCHASE_ORDER_CREATED_ROUTING_KEY = "purchase-order.created";
+    public static final String MATERIAL_CREATED_ROUTING_KEY = "material.created";
     public static final String PURCHASE_ORDER_UPDATED_ROUTING_KEY = "purchase-order.updated";
 
     @Bean
@@ -19,6 +20,11 @@ public class RabbitMQModuleTopology {
     @Bean
     public FanoutExchange customerFanoutExchange() {
         return new FanoutExchange("customer");
+    }
+
+    @Bean
+    public FanoutExchange materialFanoutExchange() {
+        return new FanoutExchange("material");
     }
 
     @Bean
@@ -37,6 +43,11 @@ public class RabbitMQModuleTopology {
     }
 
     @Bean
+    public Queue materialCreatedQueue() {
+        return new Queue(MATERIAL_CREATED_ROUTING_KEY);
+    }
+
+    @Bean
     public Binding customerCreatedBinding(FanoutExchange customerFanoutExchange, Queue customerCreatedQueue) {
         return BindingBuilder.bind(customerCreatedQueue).to(customerFanoutExchange);
     }
@@ -44,6 +55,11 @@ public class RabbitMQModuleTopology {
     @Bean
     public Binding purchaseOrderCreatedBinding(FanoutExchange purchaseOrderFanoutExchange, Queue purchaseOrderCreatedQueue) {
         return BindingBuilder.bind(purchaseOrderCreatedQueue).to(purchaseOrderFanoutExchange);
+    }
+
+    @Bean
+    public Binding materialCreatedBinding(FanoutExchange materialFanoutExchange, Queue materialCreatedQueue) {
+        return BindingBuilder.bind(materialCreatedQueue).to(materialFanoutExchange);
     }
 
     @Bean

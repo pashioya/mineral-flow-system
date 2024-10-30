@@ -45,6 +45,7 @@ public class DatabaseSeeder implements ApplicationRunner {
                 "NL1234567890"
         ));
 
+//        TODO: Create purchase orders using frontend form, random uuids cant work
         defaultCreatePurchaseOrderUseCase.createPurchaseOrder(new CreatePurchaseOrderCommand(
                 UUID.randomUUID(),
                 "PO-2021-0001",
