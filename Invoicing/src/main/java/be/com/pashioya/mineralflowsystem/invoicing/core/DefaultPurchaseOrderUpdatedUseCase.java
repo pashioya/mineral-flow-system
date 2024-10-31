@@ -22,7 +22,9 @@ public class DefaultPurchaseOrderUpdatedUseCase implements PurchaseOrderUpdatedU
 
     @Override
     public void updatePurchaseOrder(PurchaseOrderUpdatedEvent purchaseOrderEvent) {
-        PurchaseOrder purchaseOrder = loadPurchaseOrderPort.loadPurchaseOrder(purchaseOrderEvent.purchaseOrderUUID()).orElseThrow();
+        PurchaseOrder purchaseOrder = loadPurchaseOrderPort.loadPurchaseOrder(purchaseOrderEvent.purchaseOrderUUID()).orElseThrow(
+                () -> new RuntimeException("Purchase Order not found")
+        );
         purchaseOrder.setAddress(purchaseOrderEvent.address());
         purchaseOrder.setOrderStatus(purchaseOrderEvent.orderStatus());
         purchaseOrder.setDeliveryDate(LocalDateTime.parse(purchaseOrderEvent.deliveryDate()));

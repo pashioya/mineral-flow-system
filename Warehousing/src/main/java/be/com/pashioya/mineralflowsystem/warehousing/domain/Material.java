@@ -25,7 +25,7 @@ public class Material {
         this.name = materialJPAEntity.getName();
         this.description = materialJPAEntity.getDescription();
         this.price = materialJPAEntity.getPrice();
-        this.storagePrice = materialJPAEntity.getStoragePrice();
+            this.storagePrice = materialJPAEntity.getStoragePrice();
     }
 
     public Material(String name, String description, double price, double storagePrice) {
