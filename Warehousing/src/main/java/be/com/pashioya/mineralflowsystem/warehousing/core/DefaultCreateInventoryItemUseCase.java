@@ -52,7 +52,7 @@ public class DefaultCreateInventoryItemUseCase implements CreateInventoryItemUse
             InventoryItem inventoryItem = new InventoryItem(
                     new InventoryItem.InventoryItemUUID(UUID.randomUUID()),
                     customer.getWarehouseCustomerUUID(),
-                    material.getUuid(),
+                    material.getMaterialUUID(),
                     warehouse.getWarehouseUUID(),
                     command.quantity(),
                     command.dateReceived()
@@ -61,7 +61,7 @@ public class DefaultCreateInventoryItemUseCase implements CreateInventoryItemUse
 
             // Update warehouse data
             warehouse.setWarehouseCustomerUUID(customer.getWarehouseCustomerUUID());
-            warehouse.setMaterialUUID(material.getUuid());
+            warehouse.setMaterialUUID(material.getMaterialUUID());
             warehouse.setCapacity(warehouse.getCapacity() + command.quantity());
             updateWarehousePort.updateWarehouse(warehouse);
 

@@ -22,7 +22,7 @@ public class MaterialJPAEntity {
     private double storagePrice;
 
     public MaterialJPAEntity(Material material){
-        this.materialUUID = material.getUuid().uuid();
+        this.materialUUID = material.getMaterialUUID().uuid();
         this.name = material.getName();
         this.description = material.getDescription();
         this.price = material.getPrice();

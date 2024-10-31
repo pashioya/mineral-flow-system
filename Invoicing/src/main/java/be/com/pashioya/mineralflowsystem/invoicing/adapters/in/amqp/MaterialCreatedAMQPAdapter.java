@@ -36,7 +36,7 @@ public class MaterialCreatedAMQPAdapter implements MaterialEventHandler<Material
 
     @Override
     public void handle(MaterialEvent materialEvent) {
+        logger.info("Creating Material with UUID: {}", ((MaterialCreatedEvent) materialEvent).materialUUID());
         materialCreatedUseCase.createMaterial((MaterialCreatedEvent) materialEvent);
-        logger.info("Created Material: {}", ((MaterialCreatedEvent) materialEvent).name());
     }
 }

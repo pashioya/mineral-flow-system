@@ -66,25 +66,25 @@ public class DatabaseSeeder implements ApplicationRunner {
                         160.0,
                         7.0));
 
-        List<Warehouse> warehouses = defaultLoadWarehouseUseCase.loadAllWarehouses();
-        List<Material> materials = defaultLoadMaterialUseCase.loadAllMaterials();
+//        List<Warehouse> warehouses = defaultLoadWarehouseUseCase.loadAllWarehouses();
+//        List<Material> materials = defaultLoadMaterialUseCase.loadAllMaterials();
+//
+//        UUID customerUUID =  UUID.randomUUID();
 
-        UUID customerUUID =  UUID.randomUUID();
-
-        createWareHouseCustomerPort.createWareHouseCustomer(
-                new WarehouseCustomer(
-                        new WarehouseCustomer.WarehouseCustomerUUID(customerUUID),
-                        "TEST CUSTOMER",
-                        "123 Main St, Anytown, USA",
-                        "john.doe@gmail.com"
-                )
-        );
-
-        for (int i = 0; i < materials.size(); i++){
-            warehouses.get(i).setWarehouseCustomerUUID(new WarehouseCustomer.WarehouseCustomerUUID(customerUUID));
-            warehouses.get(i).setMaterialUUID(materials.get(i).getUuid());
-            updateWarehousePort.updateWarehouse(warehouses.get(i));
-        }
+//        createWareHouseCustomerPort.createWareHouseCustomer(
+//                new WarehouseCustomer(
+//                        new WarehouseCustomer.WarehouseCustomerUUID(customerUUID),
+//                        "TEST CUSTOMER",
+//                        "123 Main St, Anytown, USA",
+//                        "john.doe@gmail.com"
+//                )
+//        );
+//
+//        for (int i = 0; i < materials.size(); i++){
+//            warehouses.get(i).setWarehouseCustomerUUID(new WarehouseCustomer.WarehouseCustomerUUID(customerUUID));
+//            warehouses.get(i).setMaterialUUID(materials.get(i).getMaterialUUID());
+//            updateWarehousePort.updateWarehouse(warehouses.get(i));
+//        }
 
 //        for (int i = 0; i < 3; i++){
 //            int randomIndex = (int) (Math.random() * warehouses.size());

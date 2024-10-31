@@ -52,9 +52,9 @@ public void createWarehouseCustomer(CustomerCreatedEvent customerEvent) {
     for (Material material : materials){
         Warehouse warehouse = emptyWarehouses.getFirst();
         warehouse.setWarehouseCustomerUUID(new WarehouseCustomer.WarehouseCustomerUUID(customerEvent.customerUUID()));
-        warehouse.setMaterialUUID(material.getUuid());
+        warehouse.setMaterialUUID(material.getMaterialUUID());
 
-        logger.info("Assigning warehouse {} to customer {} for material {}", warehouse.getWarehouseUUID(), customerEvent.customerUUID(), material.getUuid());
+        logger.info("Assigning warehouse {} to customer {} for material {}", warehouse.getWarehouseUUID(), customerEvent.customerUUID(), material.getMaterialUUID());
         updateWarehousePort.updateWarehouse(warehouse);
         emptyWarehouses.remove(warehouse);
     }

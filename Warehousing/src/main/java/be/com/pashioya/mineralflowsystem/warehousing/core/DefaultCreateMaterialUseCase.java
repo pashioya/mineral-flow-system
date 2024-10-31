@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
-
 @Service
 @AllArgsConstructor
 public class DefaultCreateMaterialUseCase implements CreateMaterialUseCase {
@@ -18,8 +16,15 @@ public class DefaultCreateMaterialUseCase implements CreateMaterialUseCase {
 
     @Override
     public void createMaterial(CreateMaterialCommand command) {
-        createMaterialPorts.forEach(createMaterialPort ->
-        createMaterialPort.materialCreated(new Material(new Material.MaterialUUID(UUID.randomUUID()),command.name(), command.description(), command.price(), command.storagePrice()))
-    );}
 
+        Material material = new Material(
+                command.name(),
+                command.description(),
+                command.price(),
+                command.storagePrice());
+
+        createMaterialPorts.forEach(createMaterialPort ->
+        createMaterialPort.materialCreated(material));
+    }
 }
+

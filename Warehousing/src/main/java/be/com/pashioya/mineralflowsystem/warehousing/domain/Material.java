@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Material {
-    private MaterialUUID uuid;
+    private MaterialUUID materialUUID;
     private String name;
     private String description;
     private double price;
@@ -21,10 +21,18 @@ public class Material {
     }
 
     public Material(MaterialJPAEntity materialJPAEntity) {
-        this.uuid = new MaterialUUID(materialJPAEntity.getMaterialUUID());
+        this.materialUUID = new MaterialUUID(materialJPAEntity.getMaterialUUID());
         this.name = materialJPAEntity.getName();
         this.description = materialJPAEntity.getDescription();
         this.price = materialJPAEntity.getPrice();
         this.storagePrice = materialJPAEntity.getStoragePrice();
+    }
+
+    public Material(String name, String description, double price, double storagePrice) {
+        this.materialUUID = new MaterialUUID(UUID.randomUUID());
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.storagePrice = storagePrice;
     }
 }
