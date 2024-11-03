@@ -24,8 +24,6 @@ public class DefaultCreatePurchaseOrderUseCase implements CreatePurchaseOrderUse
         PurchaseOrder purchaseOrder = new PurchaseOrder(command);
         logger.info("Creating purchase order: {}", purchaseOrder);
         createPurchaseOrderPort.forEach(port -> port.createPurchaseOrder(purchaseOrder));
-
-        command.orderItems().forEach(orderItem -> orderItem.setPurchaseOrderUUID(purchaseOrder.getPurchaseOrderUUID().uuid()));
-        createOrderItemPort.createOrderItems(command.orderItems(), purchaseOrder.getPurchaseOrderUUID().uuid());
+        createOrderItemPort.createOrderItems(purchaseOrder.getOrderItems(), purchaseOrder.getPurchaseOrderUUID().uuid());
     }
 }
