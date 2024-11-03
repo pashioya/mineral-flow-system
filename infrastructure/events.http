@@ -23,7 +23,7 @@ POST http://localhost:8091/fulfillment-orders
 Content-Type: application/json
 
 {
-    "purchaseOrderUUID": "429a5e39-7c71-4752-97b9-e2026dad7072"
+    "purchaseOrderUUID": "6b6f1779-249a-4f6d-a9cd-a0fdabdb1c43"
 }
 
 ### Create Purchase Order

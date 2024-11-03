@@ -55,6 +55,7 @@ public class DefaultCreateFulfillmentOrderUseCase implements CreateFulfillmentOr
         fulfillmentOrder.setOrderStatus(OrderStatus.CREATED);
         fulfillmentOrder.setExpectedDeliveryDate(LocalDateTime.now().plusDays(5));
         fulfillmentOrder.setWarehouseCustomerUUID(activePurchaseOrder.getWarehouseCustomerUUID());
+        fulfillmentOrder.setPurchaseOrderUUID(activePurchaseOrder.getPurchaseOrderUUID().uuid());
         return fulfillmentOrder;
     }
 

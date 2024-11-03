@@ -4,10 +4,7 @@ import be.com.pashioya.mineralflowsystem.invoicing.adapters.out.db.OrderItemJPAE
 import be.com.pashioya.mineralflowsystem.invoicing.adapters.out.db.PurchaseOrderJPAEntity;
 import be.com.pashioya.mineralflowsystem.invoicing.ports.in.CreatePurchaseOrderCommand;
 import be.kdg.prog6.common.domain.OrderStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@ToString
 public class PurchaseOrder {
     private PurchaseOrderUUID purchaseOrderUUID;
     private Customer.CustomerUUID customerUUID;
@@ -49,7 +47,7 @@ public class PurchaseOrder {
         this.dateReceived = LocalDateTime.now();
         this.address = createPurchaseOrderCommand.address();
         this.orderStatus = OrderStatus.CREATED;
-        this.orderItems = createPurchaseOrderCommand.orderItems();
+        this.orderItems = createPurchaseOrderCommand.orderItems().stream().map(OrderItem::new).toList();
     }
 
 
@@ -63,14 +61,6 @@ public class PurchaseOrder {
         private UUID materialUUID;
         private int quantity;
         private double price;
-
-        public OrderItem(UUID materialUUID, int quantity, double price) {
-            this.orderItemUUID = UUID.randomUUID();
-            this.purchaseOrderUUID = null;
-            this.materialUUID = materialUUID;
-            this.quantity = quantity;
-            this.price = price;
-        }
 
         public OrderItem(OrderItemJPAEntity orderItemJPAEntity) {
             this.orderItemUUID = orderItemJPAEntity.getOrderItemUUID();
@@ -86,6 +76,14 @@ public class PurchaseOrder {
             this.materialUUID = orderItem.materialUUID();
             this.quantity = orderItem.quantity();
             this.price = orderItem.price();
+        }
+
+        public OrderItem(OrderItem orderItem) {
+            this.orderItemUUID = UUID.randomUUID();
+            this.purchaseOrderUUID = orderItem.getPurchaseOrderUUID();
+            this.materialUUID = orderItem.getMaterialUUID();
+            this.quantity = orderItem.getQuantity();
+            this.price = orderItem.getPrice();
         }
     }
 }
