@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Setter
@@ -42,13 +43,32 @@ public class PurchaseOrder {
     public PurchaseOrder(CreatePurchaseOrderCommand createPurchaseOrderCommand) {
         this.purchaseOrderUUID = new PurchaseOrderUUID(UUID.randomUUID());
         this.customerUUID = new Customer.CustomerUUID(createPurchaseOrderCommand.customerUUID());
-        this.orderNumber = createPurchaseOrderCommand.orderNumber();
+        this.orderNumber = generateOrderNumber();
         this.deliveryDate = createPurchaseOrderCommand.deliveryDate();
         this.dateReceived = LocalDateTime.now();
         this.address = createPurchaseOrderCommand.address();
         this.orderStatus = OrderStatus.CREATED;
         this.orderItems = createPurchaseOrderCommand.orderItems().stream().map(OrderItem::new).toList();
     }
+
+    public static String generateOrderNumber() {
+        String prefix = "PO";
+        String year = String.valueOf(java.time.Year.now().getValue()).substring(2);
+        String randomLetters1 = generateRandomLetters();
+        String randomLetters2 = generateRandomLetters();
+        return String.format("%s-%s-%s-%s", prefix, randomLetters1, randomLetters2, year);
+    }
+
+    private static String generateRandomLetters() {
+        StringBuilder letters = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 4; i++) {
+            char letter = (char) ('A' + random.nextInt(26));
+            letters.append(letter);
+        }
+        return letters.toString();
+    }
+
 
 
     @Setter
